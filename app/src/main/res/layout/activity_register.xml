@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Register">
 
     <LinearLayout
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="50dp"
+        android:orientation="vertical"
         android:layout_marginLeft="50dp"
-        android:orientation="vertical">
+        android:layout_marginRight="50dp">
 
         <EditText
-            android:id="@+id/ETLoginEmail"
+            android:id="@+id/ETRegisterFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter First Name"/>
+
+        <EditText
+            android:id="@+id/ETRegisterLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Last Name"/>
+
+        <EditText
+            android:id="@+id/ETRegisterEmailId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Email Id"/>
 
         <EditText
-            android:id="@+id/ETLoginPassword"
+            android:id="@+id/ETRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Password"/>
 
-        <TextView
-            android:id="@+id/TVLoginRegisterLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Click here to register"/>
-
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"/>
+            android:text="Register"/>
+
     </LinearLayout>
+
 </RelativeLayout>
