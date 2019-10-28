@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:background="@android:color/holo_red_light">
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout2"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:layout_below="@+id/linearlayout1">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="219dp"
+            android:layout_weight="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Full Name" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="More information"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@id/linearlayout2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:textSize="20dp"
+                android:text="Total Ratings:" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Total Reviews:" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login">
+
 
     <LinearLayout
         android:layout_centerHorizontal="true"
@@ -12,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
         <EditText
             android:id="@+id/ETLoginEmail"
@@ -27,15 +29,58 @@
             android:hint="Enter Password"/>
 
         <TextView
-            android:id="@+id/TVLoginRegisterLink"
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Click here to register"/>
+            android:text=" Forgot Password?"
+            android:layout_gravity="end"
+            android:paddingTop="20dp"/>
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"/>
+            android:text="Log In"/>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/TVLoginRegisterLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=" Click here to register"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
     </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:background="@android:color/holo_red_light">
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOG IN"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"/>
+    </LinearLayout>
+</FrameLayout>
