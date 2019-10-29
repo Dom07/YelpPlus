@@ -7,7 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
 
-public class HomePage extends AppCompatActivity implements Fragment_Business_List.OnFragmentInteractionListener{
+public class HomePage extends AppCompatActivity
+        implements Fragment_Business_List.OnFragmentInteractionListener, Fragment_Home_Page.OnFragmentInteractionListener{
     public EditText et;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +16,7 @@ public class HomePage extends AppCompatActivity implements Fragment_Business_Lis
         setContentView(R.layout.activity_home_page);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.frame_layout_home, new Fragment_Business_List());
+        ft.replace(R.id.frame_layout_home, new Fragment_Home_Page());
         ft.commit();
     }
 

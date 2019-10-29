@@ -22,6 +22,9 @@ public interface GetDataService {
                             @Field("emailId") String emailId,
                             @Field("password") String password);
 
-    @GET("/show")
+    @GET("/business")
     Call<List<Business>> getAllBusiness();
+
+    @GET("/category")
+    Call<List<Category>> getAllCategory();
 }
