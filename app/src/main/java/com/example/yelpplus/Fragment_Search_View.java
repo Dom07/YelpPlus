@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.CompoundButton;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -38,8 +43,17 @@ public class Fragment_Search_View extends Fragment {
     private String mParam2;
 
     private String search_word;
+    private String category_id;
+
+    private SearchView searchView;
     private ViewListOfBusinessAdaptor adaptor;
     private RecyclerView recyclerView;
+
+    // Toggle Buttons
+    ToggleButton toggle_product;
+    ToggleButton toggle_service;
+    ToggleButton toggle_ambience;
+    ToggleButton toggle_price;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,6 +85,7 @@ public class Fragment_Search_View extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            category_id = getArguments().getString("category_id");
             search_word = getArguments().getString("search_word");
         }
     }
@@ -79,19 +94,77 @@ public class Fragment_Search_View extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_search_view, container, false);
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Business>> call = service.getBusinessBySearch(search_word);
-        call.enqueue(new Callback<List<Business>>() {
-            @Override
-            public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
-                generateDataList(response.body(), rootView);
-            }
 
-            @Override
-            public void onFailure(Call<List<Business>> call, Throwable t) {
+        toggle_product = rootView.findViewById(R.id.toggle_product);
+        toggle_service = rootView.findViewById(R.id.toggle_service);
+        toggle_ambience = rootView.findViewById(R.id.toggle_ambience);
+        toggle_price = rootView.findViewById(R.id.toggle_price);
 
+        toggle_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    toggle_ambience.setChecked(false);
+                    toggle_service.setChecked(false);
+                    toggle_price.setChecked(false);
+                }
             }
         });
+
+        toggle_service.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    toggle_product.setChecked(false);
+                    toggle_ambience.setChecked(false);
+                    toggle_price.setChecked(false);
+                }
+            }
+        });
+
+        toggle_ambience.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    toggle_product.setChecked(false);
+                    toggle_service.setChecked(false);
+                    toggle_price.setChecked(false);
+                }
+            }
+        });
+
+        toggle_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    toggle_ambience.setChecked(false);
+                    toggle_service.setChecked(false);
+                    toggle_product.setChecked(false);
+                }
+            }
+        });
+
+        if(category_id!=""){
+            getDataByCategory(rootView, category_id);
+        }else{
+            getDataBySearch(rootView, search_word);
+        }
+
+        searchView = rootView.findViewById(R.id.fragment_search_view);
+        searchView.setQuery(search_word, false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                getDataBySearch(rootView, s);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         return rootView;
     }
 
@@ -132,6 +205,38 @@ public class Fragment_Search_View extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void getDataByCategory(final View rootView, String category_id){
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Business>> call = service.getBusinessByCategory(category_id);
+        call.enqueue(new Callback<List<Business>>() {
+            @Override
+            public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
+                generateDataList(response.body(), rootView);
+            }
+
+            @Override
+            public void onFailure(Call<List<Business>> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private  void getDataBySearch(final View rootView, String word){
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Business>> call = service.getBusinessBySearch(word);
+        call.enqueue(new Callback<List<Business>>() {
+            @Override
+            public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
+                generateDataList(response.body(), rootView);
+            }
+
+            @Override
+            public void onFailure(Call<List<Business>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void generateDataList(List<Business> businesses, View view){

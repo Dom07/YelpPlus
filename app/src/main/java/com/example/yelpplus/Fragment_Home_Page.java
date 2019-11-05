@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -35,7 +34,9 @@ public class Fragment_Home_Page extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
+
     private String mParam1;
+
     private String mParam2;
 
     private CategoryListAdaptor adaptor;
@@ -70,7 +71,9 @@ public class Fragment_Home_Page extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
             mParam1 = getArguments().getString(ARG_PARAM1);
+
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -164,3 +167,4 @@ public class Fragment_Home_Page extends Fragment {
         recyclerView.setAdapter(adaptor);
     }
 }
+

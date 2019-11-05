@@ -10,7 +10,7 @@ public class User {
     @SerializedName("last_name")
     private String last_name;
 
-    @SerializedName("emailId")
+    @SerializedName("email_id")
     private String emailId;
 
     @SerializedName("password")
