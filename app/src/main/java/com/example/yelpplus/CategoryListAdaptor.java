@@ -53,7 +53,7 @@ public class CategoryListAdaptor extends RecyclerView.Adapter<CategoryListAdapto
                 Bundle args = new Bundle();
                 args.putString("category_id", object_id);
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
-                Fragment fragment = new Fragment_Business_List();
+                Fragment fragment = new Fragment_Search_View();
                 fragment.setArguments(args);
                 activity.getSupportFragmentManager()
                         .beginTransaction()

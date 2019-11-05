@@ -13,14 +13,14 @@ public interface GetDataService {
 
     @POST("/loginUser")
     @FormUrlEncoded
-    Call<User> getUser(@Field("emailId") String emailId,
+    Call<User> getUser(@Field("email_id") String emailId,
                        @Field("password") String password);
 
     @POST("registerUser")
     @FormUrlEncoded
     Call<User> registerUser(@Field("first_name") String first_name,
                             @Field("last_name") String last_name,
-                            @Field("emailId") String emailId,
+                            @Field("email_id") String emailId,
                             @Field("password") String password);
 
     @GET("/business")
