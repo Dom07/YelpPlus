@@ -24,4 +24,7 @@ public interface GetDataService {
 
     @GET("/show")
     Call<List<Business>> getAllBusiness();
+
+    @GET("/reviews")
+    Call<List<Reviews>> getAllReviews();
 }
