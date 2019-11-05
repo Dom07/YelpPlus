@@ -34,4 +34,7 @@ public interface GetDataService {
 
     @GET("/search/{word}")
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
+
+    @GET("/reviews")
+    Call<List<Reviews>> getAllReviews();
 }
