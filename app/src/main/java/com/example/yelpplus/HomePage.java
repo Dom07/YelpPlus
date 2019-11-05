@@ -1,5 +1,6 @@
 package com.example.yelpplus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class HomePage extends AppCompatActivity
         implements Fragment_Home_Page.OnFragmentInteractionListener,
         Fragment_Search_View.OnFragmentInteractionListener{
@@ -20,20 +23,45 @@ public class HomePage extends AppCompatActivity
     boolean isLoggedIn;
     SharedPreferences pref;
     Menu menu;
+    BottomNavigationView bvn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame_layout_home, new Fragment_Home_Page());
         ft.commit();
 
         pref = getApplicationContext().getSharedPreferences("Authentication",0);
         isLoggedIn = pref.getBoolean("isLoggedIn", false);
         Log.d("LOGIN", "Login: "+pref.getBoolean("isLoggedIn", false));
+
+        bvn = findViewById(R.id.bottom_navigation_view);
+        bvn.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_search:{
+                        ft.replace(R.id.frame_layout_home, new Fragment_Home_Page());
+                        ft.commit();
+                        break;
+                    }
+                    case R.id.menu_profile:{
+//                        ft.replace(R.id.frame_layout_home, new FragmentProfile());
+                        ft.commit();
+                    }
+                    case R.id.menu_nearby:{
+//                        ft.replace(R.id.frame_layout_home, new Fragment_Nearby());
+                        ft.commit();
+                    }
+                }
+            }
+        });
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

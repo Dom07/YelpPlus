@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_search"
         android:title="Search"
         android:enabled="true"
         android:icon="@drawable/ic_search_black_24dp"
@@ -9,6 +10,7 @@
         />
 
     <item
+        android:id="@+id/menu_profile"
         android:title="Me"
         android:enabled="true"
         android:icon="@drawable/ic_person_black_24dp"
@@ -16,6 +18,7 @@
         />
 
     <item
+        android:id="@+id/menu_nearby"
         android:title="Near By"
         android:enabled="true"
         android:icon="@drawable/ic_location_city_black_24dp"
