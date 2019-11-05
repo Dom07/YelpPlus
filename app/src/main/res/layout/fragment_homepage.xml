@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:queryHint="Search For Business Here"
         android:iconifiedByDefault="false"
+        android:clickable="false"
         android:focusable="false"/>
 
     <ImageView

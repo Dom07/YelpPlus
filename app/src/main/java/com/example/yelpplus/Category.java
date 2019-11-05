@@ -10,6 +10,17 @@ public class Category {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("_id")
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Category(String image, String name){
         this.image = image;
         this.name = name;

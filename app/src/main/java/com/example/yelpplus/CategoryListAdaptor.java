@@ -1,7 +1,7 @@
 package com.example.yelpplus;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.OkHttp3Downloader;
@@ -38,6 +38,7 @@ public class CategoryListAdaptor extends RecyclerView.Adapter<CategoryListAdapto
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        final String object_id = dataList.get(position).getId();
         holder.category_name.setText(dataList.get(position).getName());
         Picasso.Builder builder= new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
@@ -46,13 +47,19 @@ public class CategoryListAdaptor extends RecyclerView.Adapter<CategoryListAdapto
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.category_image);
 
-        // TODO: Replace this with code to click on the whole card instead of just the button
-        holder.category_image.setOnClickListener(new View.OnClickListener() {
+        holder.category_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("category_id", object_id);
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
                 Fragment fragment = new Fragment_Business_List();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_home, fragment).addToBackStack(null).commit();
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home,fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
@@ -65,10 +72,12 @@ public class CategoryListAdaptor extends RecyclerView.Adapter<CategoryListAdapto
     public class MyViewHolder extends  RecyclerView.ViewHolder{
         ImageView category_image;
         TextView category_name;
+        CardView category_card_view;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             category_image = itemView.findViewById(R.id.category_image);
             category_name = itemView.findViewById(R.id.category_name);
+            category_card_view = itemView.findViewById(R.id.category_card_view);
         }
     }
 }

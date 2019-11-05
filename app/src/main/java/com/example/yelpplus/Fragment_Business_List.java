@@ -4,13 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +39,7 @@ public class Fragment_Business_List extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String category_id;
     private String mParam2;
 
     private ViewListOfBusinessAdaptor adaptor;
@@ -69,7 +73,7 @@ public class Fragment_Business_List extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            category_id = getArguments().getString("category_id");
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -79,7 +83,7 @@ public class Fragment_Business_List extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_business_list, container, false);
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Business>> call = service.getAllBusiness();
+        Call<List<Business>> call = service.getBusinessByCategory(category_id);
         call.enqueue(new Callback<List<Business>>() {
             @Override
             public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {

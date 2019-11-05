@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -23,12 +22,12 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Fragment_Home_Page.OnFragmentInteractionListener} interface
+ * {@link Fragment_Search_View.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Fragment_Home_Page#newInstance} factory method to
+ * Use the {@link Fragment_Search_View#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home_Page extends Fragment {
+public class Fragment_Search_View extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,13 +37,13 @@ public class Fragment_Home_Page extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private CategoryListAdaptor adaptor;
+    private String search_word;
+    private ViewListOfBusinessAdaptor adaptor;
     private RecyclerView recyclerView;
-    private SearchView business_search_view;
 
     private OnFragmentInteractionListener mListener;
 
-    public Fragment_Home_Page() {
+    public Fragment_Search_View() {
         // Required empty public constructor
     }
 
@@ -54,11 +53,11 @@ public class Fragment_Home_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Home_Page.
+     * @return A new instance of fragment Fragment_Search_View.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Home_Page newInstance(String param1, String param2) {
-        Fragment_Home_Page fragment = new Fragment_Home_Page();
+    public static Fragment_Search_View newInstance(String param1, String param2) {
+        Fragment_Search_View fragment = new Fragment_Search_View();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,46 +71,24 @@ public class Fragment_Home_Page extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            search_word = getArguments().getString("search_word");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
-        business_search_view = rootView.findViewById(R.id.business_search_view);
-        business_search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Bundle args = new Bundle();
-                args.putString("search_word", s);
-                Fragment_Search_View fragment = new Fragment_Search_View();
-                fragment.setArguments(args);
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_layout_home, fragment)
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
+        final View rootView = inflater.inflate(R.layout.fragment_search_view, container, false);
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Category>> call = service.getAllCategory();
-        call.enqueue(new Callback<List<Category>>() {
+        Call<List<Business>> call = service.getBusinessBySearch(search_word);
+        call.enqueue(new Callback<List<Business>>() {
             @Override
-            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+            public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
                 generateDataList(response.body(), rootView);
             }
 
             @Override
-            public void onFailure(Call<List<Category>> call, Throwable t) {
+            public void onFailure(Call<List<Business>> call, Throwable t) {
 
             }
         });
@@ -157,9 +134,9 @@ public class Fragment_Home_Page extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void generateDataList(List<Category> category, View view){
-        recyclerView = view.findViewById(R.id.category_list_rcv);
-        adaptor = new CategoryListAdaptor(category, getContext());
+    private void generateDataList(List<Business> businesses, View view){
+        recyclerView = view.findViewById(R.id.business_search_list_rcv);
+        adaptor = new ViewListOfBusinessAdaptor(businesses, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adaptor);
     }

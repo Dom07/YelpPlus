@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 public class HomePage extends AppCompatActivity
-        implements Fragment_Business_List.OnFragmentInteractionListener, Fragment_Home_Page.OnFragmentInteractionListener{
+        implements Fragment_Business_List.OnFragmentInteractionListener,
+        Fragment_Home_Page.OnFragmentInteractionListener,
+        Fragment_Search_View.OnFragmentInteractionListener{
     public EditText et;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
