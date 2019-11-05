@@ -17,11 +17,12 @@
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="My Profile"
             android:textStyle="bold"
             android:textSize="30dp"
             android:paddingTop="10dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:paddingBottom="10dp"/>
     </LinearLayout>
 
@@ -35,62 +36,102 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="219dp"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
-
-
+            android:layout_width="182dp"
+            android:layout_height="228dp"
+            android:layout_marginLeft="20dp"
+            tools:srcCompat="@tools:sample/avatars"/>
 
         <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/linearlayout5"
+            android:layout_marginTop="25dp"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
             android:layout_marginLeft="20dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Full Name" />
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:text="Name"
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="More information"/>
+                android:text="Email"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearlayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:orientation="horizontal"
-        android:layout_below="@id/linearlayout2">
+        android:paddingTop="20dp"
+        android:layout_below="@+id/linearlayout2">
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="Total Reviews" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="Total Ratings" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout4"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/linearlayout3">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Your Reviews!"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/linearlayout4">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:textSize="20dp"
-                android:text="Total Ratings:" />
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Total Reviews:" />
-        </LinearLayout>
+            android:layout_below="@id/linearlayout4"/>
     </LinearLayout>
 </RelativeLayout>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.CompoundButton;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -237,6 +238,7 @@ public class Fragment_Search_View extends Fragment {
             }
         });
     }
+
     private void generateDataList(List<Business> businesses, View view){
         recyclerView = view.findViewById(R.id.business_search_list_rcv);
         adaptor = new ViewListOfBusinessAdaptor(businesses, getContext());

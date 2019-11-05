@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,30 +22,27 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Fragment_Home_Page.OnFragmentInteractionListener} interface
+ * {@link FragmentProfile.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Fragment_Home_Page#newInstance} factory method to
+ * Use the {@link FragmentProfile#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home_Page extends Fragment {
+public class FragmentProfile extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-
     private String mParam1;
-
     private String mParam2;
 
-    private CategoryListAdaptor adaptor;
+    private ViewListOfReviewsAdaptor adaptor;
     private RecyclerView recyclerView;
-    private SearchView business_search_view;
 
     private OnFragmentInteractionListener mListener;
 
-    public Fragment_Home_Page() {
+    public FragmentProfile() {
         // Required empty public constructor
     }
 
@@ -55,11 +52,11 @@ public class Fragment_Home_Page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_Home_Page.
+     * @return A new instance of fragment FragmentProfile.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Home_Page newInstance(String param1, String param2) {
-        Fragment_Home_Page fragment = new Fragment_Home_Page();
+    public static FragmentProfile newInstance(String param1, String param2) {
+        FragmentProfile fragment = new FragmentProfile();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,9 +68,7 @@ public class Fragment_Home_Page extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
             mParam1 = getArguments().getString(ARG_PARAM1);
-
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -81,41 +76,18 @@ public class Fragment_Home_Page extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_homepage, container, false);
-        business_search_view = rootView.findViewById(R.id.business_search_view);
-        business_search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Bundle args = new Bundle();
-                args.putString("search_word", s);
-                Fragment_Search_View fragment = new Fragment_Search_View();
-                fragment.setArguments(args);
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_layout_home, fragment)
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
+        final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Category>> call = service.getAllCategory();
-        call.enqueue(new Callback<List<Category>>() {
+        Call<List<Reviews>> call = service.getAllReviews();
+        call.enqueue(new Callback<List<Reviews>>() {
             @Override
-            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+            public void onResponse(Call<List<Reviews>> call, Response<List<Reviews>> response) {
                 generateDataList(response.body(), rootView);
             }
 
             @Override
-            public void onFailure(Call<List<Category>> call, Throwable t) {
-
+            public void onFailure(Call<List<Reviews>> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT);
             }
         });
         return rootView;
@@ -160,11 +132,18 @@ public class Fragment_Home_Page extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void generateDataList(List<Category> category, View view){
-        recyclerView = view.findViewById(R.id.category_list_rcv);
-        adaptor = new CategoryListAdaptor(category, getContext());
+    private void generateDataList(List<Reviews> reviews, View view){
+        for(int i = 0; i < reviews.size(); i++){
+            System.out.println(reviews.get(i).getUsername());
+            System.out.println(reviews.get(i).getBusiness_name());
+            System.out.println(reviews.get(i).getProduct());
+            System.out.println(reviews.get(i).getService());
+            System.out.println(reviews.get(i).getAmbience());
+            System.out.println(reviews.get(i).getReviews());
+        }
+        recyclerView = view.findViewById(R.id.review_list);
+        adaptor = new ViewListOfReviewsAdaptor(reviews, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adaptor);
     }
 }
-

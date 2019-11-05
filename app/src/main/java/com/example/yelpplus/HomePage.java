@@ -31,6 +31,7 @@ public class HomePage extends AppCompatActivity
         setContentView(R.layout.activity_home_page);
 
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         ft.replace(R.id.frame_layout_home, new Fragment_Home_Page());
         ft.commit();
 
@@ -49,7 +50,7 @@ public class HomePage extends AppCompatActivity
                         break;
                     }
                     case R.id.menu_profile:{
-//                        ft.replace(R.id.frame_layout_home, new FragmentProfile());
+                        ft.replace(R.id.frame_layout_home, new FragmentProfile());
                         ft.commit();
                     }
                     case R.id.menu_nearby:{
