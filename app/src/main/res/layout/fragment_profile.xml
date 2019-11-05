@@ -42,26 +42,41 @@
             tools:srcCompat="@tools:sample/avatars"/>
 
         <LinearLayout
+            android:id="@+id/linearlayout5"
+            android:layout_marginTop="25dp"
             android:layout_width="88dp"
-            android:layout_height="match_parent"
+            android:layout_height="88dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:text="Name"
+                android:textStyle="bold"/>
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:text="Name :" />
+                android:layout_height="22dp"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
-                android:text="More Information" />
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -119,7 +134,4 @@
             android:layout_height="match_parent"
             android:layout_below="@id/linearlayout4"/>
     </LinearLayout>
-
-
-
 </RelativeLayout>
