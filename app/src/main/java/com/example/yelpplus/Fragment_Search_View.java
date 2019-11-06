@@ -13,11 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.CompoundButton;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -49,12 +45,6 @@ public class Fragment_Search_View extends Fragment {
     private SearchView searchView;
     private ViewListOfBusinessAdaptor adaptor;
     private RecyclerView recyclerView;
-
-    // Toggle Buttons
-    ToggleButton toggle_product;
-    ToggleButton toggle_service;
-    ToggleButton toggle_ambience;
-    ToggleButton toggle_price;
 
     private OnFragmentInteractionListener mListener;
 
@@ -95,55 +85,6 @@ public class Fragment_Search_View extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_search_view, container, false);
-
-        toggle_product = rootView.findViewById(R.id.toggle_product);
-        toggle_service = rootView.findViewById(R.id.toggle_service);
-        toggle_ambience = rootView.findViewById(R.id.toggle_ambience);
-        toggle_price = rootView.findViewById(R.id.toggle_price);
-
-        toggle_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    toggle_ambience.setChecked(false);
-                    toggle_service.setChecked(false);
-                    toggle_price.setChecked(false);
-                }
-            }
-        });
-
-        toggle_service.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    toggle_product.setChecked(false);
-                    toggle_ambience.setChecked(false);
-                    toggle_price.setChecked(false);
-                }
-            }
-        });
-
-        toggle_ambience.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    toggle_product.setChecked(false);
-                    toggle_service.setChecked(false);
-                    toggle_price.setChecked(false);
-                }
-            }
-        });
-
-        toggle_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    toggle_ambience.setChecked(false);
-                    toggle_service.setChecked(false);
-                    toggle_product.setChecked(false);
-                }
-            }
-        });
 
         if(category_id!=""){
             getDataByCategory(rootView, category_id);
@@ -220,7 +161,7 @@ public class Fragment_Search_View extends Fragment {
 
             @Override
             public void onFailure(Call<List<Business>> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT);
+                Log.e("View by Category Error", ""+t);
             }
         });
     }

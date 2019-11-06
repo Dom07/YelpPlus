@@ -11,51 +11,6 @@
         android:iconifiedByDefault="false"
         android:focusable="false"/>
 
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:text="Sort Business By:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ToggleButton
-            android:id="@+id/toggle_product"
-            android:textOn="Product \nRating"
-            android:textOff="Product \nRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_service"
-            android:textOn="Service \nRating"
-            android:textOff="Service \nRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_ambience"
-            android:textOn="Ambience \nRating"
-            android:textOff="Ambience \nRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_price"
-            android:textOn="Price\n"
-            android:textOff="Price\n"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
