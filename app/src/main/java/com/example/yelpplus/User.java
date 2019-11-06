@@ -2,6 +2,8 @@ package com.example.yelpplus;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class User {
 
     @SerializedName("first_name")
@@ -18,6 +20,17 @@ public class User {
 
     @SerializedName("authenticationStatus")
     private Boolean authenticationStatus;
+
+    @SerializedName("reviews")
+    private List<Reviews_profile> reviews;
+
+    public List<Reviews_profile> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Reviews_profile> reviews) {
+        this.reviews = reviews;
+    }
 
     public String getEmailId() {
         return emailId;
