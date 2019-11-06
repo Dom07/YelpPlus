@@ -1,6 +1,7 @@
 package com.example.yelpplus;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -110,6 +114,8 @@ public class FragmentViewBusiness extends Fragment {
 
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
+        writeReviewButton = rootView.findViewById(R.id.writeReview);
+
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
         call.enqueue(new Callback<Business>() {
@@ -131,6 +137,30 @@ public class FragmentViewBusiness extends Fragment {
             }
         });
 
+        writeReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
+                if(pref.getBoolean("isLoggedIn", false)){
+                    Bundle args = new Bundle();
+                    args.putString("business_id", business_id);
+                    args.putString("business_title", businessTitle.toString());
+                    FragmentWriteReview fragment = new FragmentWriteReview();
+                    fragment.setArguments(args);
+                    getActivity()
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame_layout_home, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(getContext(), "You need to Log In to write review", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
         return rootView;
     }
 
