@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class FragmentViewBusiness extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String buisness_id;
+    private String business_id;
 
     private TextView businessTitle;
 
@@ -55,6 +57,8 @@ public class FragmentViewBusiness extends Fragment {
     private TextView reviewNumbers;
     private Button writeReviewButton;
     private RecyclerView recyclerView;
+
+    private ViewBusinessAdaptor adaptor;
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,7 +90,7 @@ public class FragmentViewBusiness extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            buisness_id = getArguments().getString("business_id");
+            business_id = getArguments().getString("business_id");
         }
     }
 
@@ -95,17 +99,33 @@ public class FragmentViewBusiness extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_view_business, container, false);
 
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Business>> call = service.getBusinessInformation(buisness_id);
-        call.enqueue(new Callback<List<Business>>() {
-            @Override
-            public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
+        businessTitle = rootView.findViewById(R.id.businessTitle);
+        averageRating = rootView.findViewById(R.id.ratingBarAverage);
+        serviceRating = rootView.findViewById(R.id.ratingBarService);
+        productRating = rootView.findViewById(R.id.ratingBarProduct);
+        ambienceRating = rootView.findViewById(R.id.ratingBarAmbience);
 
+        subCategories = rootView.findViewById(R.id.subCategories);
+        phoneNumber = rootView.findViewById(R.id.phoneNumber);
+        address = rootView.findViewById(R.id.address);
+
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<Business> call = service.getBusinessInformation(business_id);
+        call.enqueue(new Callback<Business>() {
+            @Override
+            public void onResponse(Call<Business> call, Response<Business> response) {
+                Business business = response.body();
+                businessTitle.setText(business.getName());
+                phoneNumber.setText(business.getPhone_number());
+                address.setText(business.getAddress());
+//                Log.d("REVIEWS",""+business.getReviewsList());
+
+//                generateDataList(reviews, rootView);
             }
 
             @Override
-            public void onFailure(Call<List<Business>> call, Throwable t) {
-
+            public void onFailure(Call<Business> call, Throwable t) {
+                Log.e("ERROR", ""+t);
             }
         });
 
@@ -151,9 +171,11 @@ public class FragmentViewBusiness extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void generateDataList (List<Business> business, View view)
+    private void generateDataList (List<Reviews_profile> reviews, View view)
     {
         recyclerView = view.findViewById(R.id.reviewListRcv);
-
+        adaptor = new ViewBusinessAdaptor(reviews, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adaptor);
     }
 }

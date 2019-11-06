@@ -16,10 +16,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
 public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdaptor.MyViewHolder> {
-    private List<Business> dataList;
+    private List<Reviews_profile> dataList;
     private Context context;
 
-    public ViewBusinessAdaptor(List<Business> dataList, Context context){
+    public ViewBusinessAdaptor(List<Reviews_profile> dataList, Context context){
         this.dataList = dataList;
         this.context = context;
     }
@@ -28,12 +28,13 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
     @Override
     public ViewBusinessAdaptor.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.single_business_view, parent, false);
+        View view = inflater.inflate(R.layout.single_review_view_profile, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewBusinessAdaptor.MyViewHolder holder, int position) {
+
 
     }
 
@@ -47,11 +48,17 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
         RatingBar serviceRating;
         RatingBar productRating;
         RatingBar ambienceRating;
-        TextInputEditText reviewTitle;
-        TextInputEditText reviewDescription;
+        TextView reviewTitle;
+        TextView reviewDescription;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            name = itemView.findViewById(R.id.tv_business_name);
+            serviceRating = itemView.findViewById(R.id.ratingBarServiceReview);
+            productRating = itemView.findViewById(R.id.ratingBarProductReview);
+            ambienceRating = itemView.findViewById(R.id.ratingBarAmbienceReview);
+            reviewTitle = itemView.findViewById(R.id.tv_review_title);
+            reviewDescription = itemView.findViewById(R.id.tv_review_description);
         }
     }
 }

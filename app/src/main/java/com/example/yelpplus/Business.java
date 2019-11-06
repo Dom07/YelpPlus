@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Business {
 
+    @SerializedName("_id")
+    private String business_id;
+
     @SerializedName("name")
     private String name;
 
@@ -15,11 +18,8 @@ public class Business {
     @SerializedName("address")
     private String address;
 
-    @SerializedName("sub_category")
-    private String sub_category;
-
     @SerializedName("review")
-    private List<Reviews> reviewsList;
+    private Reviews_profile reviewsList[];
 
     public String[] getPhoto() {
         return photo;
@@ -32,13 +32,6 @@ public class Business {
     @SerializedName("photo")
     private String[] photo;
 
-    public Business(String name, String phone_number, String address, String sub_category, List reviewsList){
-        this.name = name;
-        this.phone_number = phone_number;
-        this.address = address;
-        this.sub_category = sub_category;
-        this.reviewsList = reviewsList;
-    }
 
     public String getName() {
         return name;
@@ -62,5 +55,17 @@ public class Business {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getBusiness_id() {return business_id;}
+
+    public void setBusiness_id(String id) {this.business_id = id;}
+
+    public Reviews_profile[] getReviewsList() {
+        return reviewsList;
+    }
+
+    public void setReviewsList(Reviews_profile[] reviewsList) {
+        this.reviewsList = reviewsList;
     }
 }
