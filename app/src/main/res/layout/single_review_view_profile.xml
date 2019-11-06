@@ -89,7 +89,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <TextView
             android:textStyle="bold"
             android:id="@+id/tv_review_title"
