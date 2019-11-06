@@ -1,89 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginTop="10dp">
-
-    <TextView
-        android:id="@+id/businessName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
 
+        //Name of the user
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textStyle="bold"
+            android:textSize="8pt"/>
+
+        //Review Star Ratings
         <LinearLayout
+            android:id="@+id/reviewRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@+id/username"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="Service:"
-                android:textStyle="bold"/>
-
-            <RatingBar
-                android:id="@+id/writeReviewService"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:numStars="5"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="Service:"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBarServiceReview"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:numStars="5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="Product:"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBarProductReview"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:numStars="5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="Ambience:"
+                    android:textStyle="bold" />
+
+                <RatingBar
+                    android:id="@+id/ratingBarAmbienceReview"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:numStars="5" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reviewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="Product:"
-                android:textStyle="bold"/>
-
-            <RatingBar
-                android:id="@+id/writeReviewProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:numStars="5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:text="Ambience:"
-                android:textStyle="bold"/>
-
-            <RatingBar
-                android:id="@+id/writeReviewAmbience"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:numStars="5"/>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="SUBMIT" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/writeReview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-</LinearLayout>
+</RelativeLayout>

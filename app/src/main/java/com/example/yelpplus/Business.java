@@ -2,7 +2,12 @@ package com.example.yelpplus;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Business {
+
+    @SerializedName("_id")
+    private String business_id;
 
     @SerializedName("name")
     private String name;
@@ -24,11 +29,9 @@ public class Business {
     @SerializedName("photo")
     private String[] photo;
 
-    public Business(String name, String phone_number, String address){
-        this.name = name;
-        this.phone_number = phone_number;
-        this.address = address;
-    }
+    @SerializedName("review")
+    private List<Reviews_profile> review;
+
 
     public String getName() {
         return name;
@@ -52,5 +55,17 @@ public class Business {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getBusiness_id() {return business_id;}
+
+    public void setBusiness_id(String id) {this.business_id = id;}
+
+    public List<Reviews_profile> getReview() {
+        return review;
+    }
+
+    public void setReview(List<Reviews_profile> review) {
+        this.review = review;
     }
 }
