@@ -147,7 +147,8 @@ public class Fragment_Search_View extends Fragment {
 
         if(category_id!=""){
             getDataByCategory(rootView, category_id);
-        }else{
+        }
+        if(search_word!=""){
             getDataBySearch(rootView, search_word);
         }
 
@@ -235,7 +236,7 @@ public class Fragment_Search_View extends Fragment {
 
             @Override
             public void onFailure(Call<List<Business>> call, Throwable t) {
-                Log.d("database search", ""+t);
+                Log.e("SEARCH ERROR", ""+t);
             }
         });
     }
