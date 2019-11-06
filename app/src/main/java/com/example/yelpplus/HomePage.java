@@ -23,7 +23,8 @@ public class HomePage extends AppCompatActivity
         implements Fragment_Home_Page.OnFragmentInteractionListener,
         Fragment_Search_View.OnFragmentInteractionListener,
         FragmentProfile.OnFragmentInteractionListener,
-        FragmentViewBusiness.OnFragmentInteractionListener{
+        FragmentViewBusiness.OnFragmentInteractionListener,
+        FragmentWriteReview.OnFragmentInteractionListener{
     public EditText et;
     boolean isLoggedIn;
     SharedPreferences pref;

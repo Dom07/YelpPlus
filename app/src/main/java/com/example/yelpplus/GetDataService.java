@@ -38,13 +38,21 @@ public interface GetDataService {
     @GET("/search/{word}")
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
 
-    @GET("/reviews")
-    Call<List<Reviews_profile>> getAllReviews();
-
     //This call gets all the information about a particular business
     @GET("/business/show/{id}")
     Call<Business> getBusinessInformation(@Path("id") String business_id);
 
     @GET("/user/{email_id}")
     Call<User> getProfile(@Path("email_id") String email_id);
+
+    @POST("/review/{business_id}/{email_id}/new")
+    @FormUrlEncoded
+    Call<Reviews_profile> postNewReview(@Path("business_id") String business_id,
+                                        @Path("email_id") String email_id,
+                                        @Field("service_rating") String service_rating,
+                                        @Field("product_rating") String product_rating,
+                                        @Field("ambience_rating") String ambience_rating,
+                                        @Field("title") String title,
+                                        @Field("description") String description);
+
 }
