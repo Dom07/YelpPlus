@@ -22,7 +22,8 @@ import com.google.android.material.navigation.NavigationView;
 public class HomePage extends AppCompatActivity
         implements Fragment_Home_Page.OnFragmentInteractionListener,
         Fragment_Search_View.OnFragmentInteractionListener,
-        FragmentProfile.OnFragmentInteractionListener{
+        FragmentProfile.OnFragmentInteractionListener,
+        FragmentViewBusiness.OnFragmentInteractionListener{
     public EditText et;
     boolean isLoggedIn;
     SharedPreferences pref;
