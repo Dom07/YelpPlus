@@ -24,6 +24,9 @@ public class Reviews_profile {
     @SerializedName("business")
     private Business business;
 
+    @SerializedName("author")
+    private String author;
+
     public float getProduct() {
         return product;
     }
@@ -70,5 +73,13 @@ public class Reviews_profile {
 
     public void setBusiness(Business business) {
         this.business = business;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
