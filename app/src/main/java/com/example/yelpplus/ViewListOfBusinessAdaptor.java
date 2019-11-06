@@ -1,6 +1,7 @@
 package com.example.yelpplus;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.OkHttp3Downloader;
@@ -33,7 +37,7 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewListOfBusinessAdaptor.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewListOfBusinessAdaptor.MyViewHolder holder, final int position) {
 
         holder.name.setText(dataList.get(position).getName());
         holder.address.setText(dataList.get(position).getAddress());
@@ -64,6 +68,22 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
                     .into(holder.image_view_four);
         }
 
+        holder.business_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("business_id", dataList.get(position).getBusiness_id());
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+
+                Fragment fragment = new FragmentViewBusiness();
+
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .commit();
+            }
+        });
     }
 
     @Override
@@ -79,6 +99,7 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
         ImageView image_view_two;
         ImageView image_view_three;
         ImageView image_view_four;
+        CardView business_card;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +109,7 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
             image_view_two = itemView.findViewById(R.id.business_image_two);
             image_view_three = itemView.findViewById(R.id.business_image_three);
             image_view_four = itemView.findViewById(R.id.business_image_four);
+            business_card = itemView.findViewById(R.id.businessCard);
 
         }
     }
