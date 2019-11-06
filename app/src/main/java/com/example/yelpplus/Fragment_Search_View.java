@@ -220,7 +220,7 @@ public class Fragment_Search_View extends Fragment {
 
             @Override
             public void onFailure(Call<List<Business>> call, Throwable t) {
-                Log.d("business search", ""+t);
+                Log.d("view by category error", ""+t);
             }
         });
     }

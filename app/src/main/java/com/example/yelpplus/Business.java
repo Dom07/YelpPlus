@@ -18,9 +18,6 @@ public class Business {
     @SerializedName("address")
     private String address;
 
-    @SerializedName("review")
-    private Reviews_profile reviewsList[];
-
     public String[] getPhoto() {
         return photo;
     }
@@ -31,6 +28,9 @@ public class Business {
 
     @SerializedName("photo")
     private String[] photo;
+
+    @SerializedName("review")
+    private List<Reviews_profile> review;
 
 
     public String getName() {
@@ -61,11 +61,11 @@ public class Business {
 
     public void setBusiness_id(String id) {this.business_id = id;}
 
-    public Reviews_profile[] getReviewsList() {
-        return reviewsList;
+    public List<Reviews_profile> getReview() {
+        return review;
     }
 
-    public void setReviewsList(Reviews_profile[] reviewsList) {
-        this.reviewsList = reviewsList;
+    public void setReview(List<Reviews_profile> review) {
+        this.review = review;
     }
 }

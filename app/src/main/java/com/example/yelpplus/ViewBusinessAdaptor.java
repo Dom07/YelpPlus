@@ -34,7 +34,12 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
 
     @Override
     public void onBindViewHolder(@NonNull ViewBusinessAdaptor.MyViewHolder holder, int position) {
-
+        holder.name.setText(dataList.get(position).getAuthor());
+        holder.serviceRating.setRating(dataList.get(position).getService());
+        holder.productRating.setRating(dataList.get(position).getProduct());
+        holder.ambienceRating.setRating(dataList.get(position).getAmbience());
+        holder.reviewTitle.setText(dataList.get(position).getTitle());
+        holder.reviewDescription.setText(dataList.get(position).getDescription());
 
     }
 

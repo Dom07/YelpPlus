@@ -24,8 +24,30 @@ public class Reviews_profile {
     @SerializedName("business")
     private Business business;
 
+
     @SerializedName("author")
     private String author;
+
+    public Reviews_profile (String author, float product, float service, float ambience, String title, String description, Business business)
+    {
+        this.author = author;
+        this.product = product;
+        this.service = service;
+        this.ambience = ambience;
+        this.title = title;
+        this.description = description;
+        this.business = business;
+    }
+
+    public Reviews_profile (String author, float product, float service, float ambience, String title, String description)
+    {
+        this.author = author;
+        this.product = product;
+        this.service = service;
+        this.ambience = ambience;
+        this.title = title;
+        this.description = description;
+    }
 
     public float getProduct() {
         return product;
