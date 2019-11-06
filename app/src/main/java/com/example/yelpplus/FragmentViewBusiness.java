@@ -14,11 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -45,6 +50,12 @@ public class FragmentViewBusiness extends Fragment {
     private String mParam2;
 
     private String business_id;
+
+    private ViewFlipper viewFlipper;
+    private ImageView imageView;
+    private String images[];
+
+    private List<Reviews_profile> reviews;
 
     private TextView businessTitle;
 
@@ -103,6 +114,9 @@ public class FragmentViewBusiness extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_view_business, container, false);
 
+        //viewFlipper = rootView.findViewById(R.id.viewFlipper);
+        imageView = rootView.findViewById(R.id.businessImages);
+
         businessTitle = rootView.findViewById(R.id.businessTitle);
         averageRating = rootView.findViewById(R.id.ratingBarAverage);
         serviceRating = rootView.findViewById(R.id.ratingBarService);
@@ -125,6 +139,16 @@ public class FragmentViewBusiness extends Fragment {
                 businessTitle.setText(business.getName());
                 phoneNumber.setText(business.getPhone_number());
                 address.setText(business.getAddress());
+                images = business.getPhoto();
+
+                Picasso.Builder builder = new Picasso.Builder(getContext());
+                builder.downloader(new OkHttp3Downloader(getContext()));
+                builder.build().load(images[0])
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .error(R.drawable.ic_launcher_background)
+                        .into(imageView);
+
+
                 Log.d("REVIEWS",""+business.getReview().size());
 
                 reviewNumbers.setText(""+business.getReview().size());
@@ -210,4 +234,5 @@ public class FragmentViewBusiness extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adaptor);
     }
+
 }
