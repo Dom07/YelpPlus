@@ -55,4 +55,8 @@ public interface GetDataService {
                                         @Field("title") String title,
                                         @Field("description") String description);
 
+
+    @POST("/business/{business_id}/claim/{email_id}")
+    Call<Business> claimBusiness(@Path("business_id") String business_id,
+                                 @Path("email_id") String email_id);
 }

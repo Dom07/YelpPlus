@@ -14,11 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -57,6 +56,9 @@ public class FragmentViewBusiness extends Fragment {
 
     private TextView phoneNumber;
     private TextView address;
+
+    private ImageView owned_tick_mark;
+    private Button btn_claim_busniess;
 
     private TextView reviewNumbers;
     private Button writeReviewButton;
@@ -109,6 +111,9 @@ public class FragmentViewBusiness extends Fragment {
         productRating = rootView.findViewById(R.id.ratingBarProduct);
         ambienceRating = rootView.findViewById(R.id.ratingBarAmbience);
 
+        owned_tick_mark = rootView.findViewById(R.id.owned_tick_mark);
+        btn_claim_busniess = rootView.findViewById(R.id.btn_claim_business);
+
         phoneNumber = rootView.findViewById(R.id.phoneNumber);
         address = rootView.findViewById(R.id.address);
 
@@ -116,16 +121,54 @@ public class FragmentViewBusiness extends Fragment {
 
         writeReviewButton = rootView.findViewById(R.id.writeReview);
 
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
         call.enqueue(new Callback<Business>() {
             @Override
             public void onResponse(Call<Business> call, Response<Business> response) {
-                Business business = response.body();
+                final Business business = response.body();
                 businessTitle.setText(business.getName());
                 phoneNumber.setText(business.getPhone_number());
                 address.setText(business.getAddress());
                 Log.d("REVIEWS",""+business.getReview().size());
+
+                if(business.getClaimed()){
+                    owned_tick_mark.setVisibility(View.VISIBLE);
+                    btn_claim_busniess.setVisibility(View.INVISIBLE);
+                }else{
+                    owned_tick_mark.setVisibility(View.INVISIBLE);
+                    btn_claim_busniess.setVisibility(View.VISIBLE);
+                }
+
+                btn_claim_busniess.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
+                        if(pref.getBoolean("isLoggedIn", false)){
+                            owned_tick_mark.setVisibility(View.VISIBLE);
+                            btn_claim_busniess.setVisibility(View.INVISIBLE);
+                            String email_id = pref.getString("emailId", "Empty");
+                            Call<Business> call = service.claimBusiness(business.getBusiness_id(), email_id);
+                            call.enqueue(new Callback<Business>() {
+                                @Override
+                                public void onResponse(Call<Business> call, Response<Business> response) {
+                                    if(response.isSuccessful()){
+                                        Toast.makeText(getContext(), "You have claimed the business", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(getContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Business> call, Throwable t) {
+                                    Log.e("CLAIM ERROR", ""+t);
+                                }
+                            });
+                        }else{
+                            Toast.makeText(getContext(),"You need to be logged in to perform this action", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
                 reviewNumbers.setText(""+business.getReview().size());
                 generateDataList(business.getReview(), rootView);
