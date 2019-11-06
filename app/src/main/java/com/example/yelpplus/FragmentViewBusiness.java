@@ -105,9 +105,10 @@ public class FragmentViewBusiness extends Fragment {
         productRating = rootView.findViewById(R.id.ratingBarProduct);
         ambienceRating = rootView.findViewById(R.id.ratingBarAmbience);
 
-        subCategories = rootView.findViewById(R.id.subCategories);
         phoneNumber = rootView.findViewById(R.id.phoneNumber);
         address = rootView.findViewById(R.id.address);
+
+        reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
@@ -118,9 +119,10 @@ public class FragmentViewBusiness extends Fragment {
                 businessTitle.setText(business.getName());
                 phoneNumber.setText(business.getPhone_number());
                 address.setText(business.getAddress());
-//                Log.d("REVIEWS",""+business.getReviewsList());
+                Log.d("REVIEWS",""+business.getReview().size());
 
-//                generateDataList(reviews, rootView);
+                reviewNumbers.setText(""+business.getReview().size());
+                generateDataList(business.getReview(), rootView);
             }
 
             @Override
