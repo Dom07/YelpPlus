@@ -39,9 +39,12 @@ public interface GetDataService {
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
 
     @GET("/reviews")
-    Call<List<Reviews>> getAllReviews();
+    Call<List<Reviews_profile>> getAllReviews();
 
     //This call gets all the information about a particular business
     @GET("/viewBusiness/{id}")
     Call<List<Business>> getBusinessInformation(@Path("id") String business_id);
+
+    @GET("/user/{email_id}")
+    Call<User> getProfile(@Path("email_id") String email_id);
 }
