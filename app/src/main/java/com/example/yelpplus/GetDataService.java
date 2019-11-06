@@ -26,15 +26,22 @@ public interface GetDataService {
     @GET("/business")
     Call<List<Business>> getAllBusiness();
 
+    //This call is used to display information on Homepage
     @GET("/category")
     Call<List<Category>> getAllCategory();
 
+    //This call gets list of businesses based on category
     @GET("/business/{id}")
     Call<List<Business>> getBusinessByCategory(@Path("id") String category_id);
 
+    //This call gets list of businesses based on search
     @GET("/search/{word}")
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
 
     @GET("/reviews")
     Call<List<Reviews>> getAllReviews();
+
+    //This call gets all the information about a particular business
+    @GET("/viewBusiness/{id}")
+    Call<List<Business>> getBusinessInformation(@Path("id") String business_id);
 }

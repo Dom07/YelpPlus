@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
@@ -91,10 +91,34 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/reviewDescription"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reviewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitReview"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="SUBMIT" />
     </LinearLayout>
 </RelativeLayout>
