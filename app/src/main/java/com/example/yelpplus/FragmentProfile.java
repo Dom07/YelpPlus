@@ -1,6 +1,7 @@
 package com.example.yelpplus;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,9 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,6 +22,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +42,12 @@ public class FragmentProfile extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private TextView tv_user_name;
+    private TextView tv_email_id;
+    private TextView tv_login_message;
+    private LinearLayout linear_layout_profile;
+    private TextView tv_label_your_review;
 
     private ViewListOfReviewsAdaptor adaptor;
     private RecyclerView recyclerView;
@@ -77,20 +89,47 @@ public class FragmentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        tv_login_message = rootView.findViewById(R.id.tv_login_message);
+        tv_user_name = rootView.findViewById(R.id.tv_user_name);
+        tv_email_id = rootView.findViewById(R.id.tv_user_email_id);
+        linear_layout_profile = rootView.findViewById(R.id.linear_layout_profile);
+        tv_label_your_review = rootView.findViewById(R.id.tv_label_your_review);
+
+        SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
+        if(pref.getBoolean("isLoggedIn", false)){
+            tv_login_message.setVisibility(View.INVISIBLE);
+            linear_layout_profile.setVisibility(View.VISIBLE);
+            tv_label_your_review.setVisibility(View.VISIBLE);
+            String username = pref.getString("name", "username");
+            String email_id = pref.getString("emailId", "email");
+            tv_user_name.setText(username);
+            tv_email_id.setText(email_id);
+            getReviews(rootView, email_id);
+        }else{
+            tv_login_message.setVisibility(View.VISIBLE);
+            linear_layout_profile.setVisibility(View.INVISIBLE);
+            tv_label_your_review.setVisibility(View.INVISIBLE);
+        }
+
+        return rootView;
+    }
+
+    private void getReviews(final View rootView, String email_id) {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Reviews>> call = service.getAllReviews();
-        call.enqueue(new Callback<List<Reviews>>() {
+        Call<User> call = service.getProfile(email_id);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<List<Reviews>> call, Response<List<Reviews>> response) {
-                generateDataList(response.body(), rootView);
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                generateDataList(user.getReviews(), rootView);
             }
 
             @Override
-            public void onFailure(Call<List<Reviews>> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT);
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("ERROR", " "+t);
             }
         });
-        return rootView;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -132,15 +171,7 @@ public class FragmentProfile extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void generateDataList(List<Reviews> reviews, View view){
-        for(int i = 0; i < reviews.size(); i++){
-            System.out.println(reviews.get(i).getUsername());
-            System.out.println(reviews.get(i).getBusiness_name());
-            System.out.println(reviews.get(i).getProduct());
-            System.out.println(reviews.get(i).getService());
-            System.out.println(reviews.get(i).getAmbience());
-            System.out.println(reviews.get(i).getReviews());
-        }
+    private void generateDataList(List<Reviews_profile> reviews, View view){
         recyclerView = view.findViewById(R.id.review_list);
         adaptor = new ViewListOfReviewsAdaptor(reviews, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

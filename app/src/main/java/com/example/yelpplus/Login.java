@@ -69,6 +69,7 @@ public class Login extends AppCompatActivity {
                             SharedPreferences.Editor editor = pref.edit();
                             editor.putBoolean("isLoggedIn", true);
                             editor.putString("emailId", user.getEmailId());
+                            editor.putString("name", user.getFirst_name()+" "+user.getLast_name());
                             editor.commit();
                             Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Login.this, HomePage.class);

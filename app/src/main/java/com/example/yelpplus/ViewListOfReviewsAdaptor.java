@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ViewListOfReviewsAdaptor extends RecyclerView.Adapter<ViewListOfReviewsAdaptor.MyViewHolder> {
-    private List<Reviews> dataList;
+    private List<Reviews_profile> dataList;
     private Context context;
 
-    public ViewListOfReviewsAdaptor(List<Reviews> dataList, Context context){
+    public ViewListOfReviewsAdaptor(List<Reviews_profile> dataList, Context context){
         this.dataList = dataList;
         this.context = context;
     }
@@ -23,19 +23,18 @@ public class ViewListOfReviewsAdaptor extends RecyclerView.Adapter<ViewListOfRev
     @Override
     public ViewListOfReviewsAdaptor.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.single_review_view, parent, false);
+        View view = inflater.inflate(R.layout.single_review_view_profile, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewListOfReviewsAdaptor.MyViewHolder holder, int position) {
-
-        holder.username.setText(dataList.get(position).getUsername());
-        holder.business_name.setText(dataList.get(position).getBusiness_name());
-        holder.product.setRating(dataList.get(position).getProduct());
-        holder.service.setRating(dataList.get(position).getService());
-        holder.ambience.setRating(dataList.get(position).getAmbience());
-        holder.reviews.setText(dataList.get(position).getReviews());
+        holder.tv_review_title.setText(dataList.get(position).getTitle());
+        holder.tv_description.setText(dataList.get(position).getDescription());
+        holder.product_rating.setRating(dataList.get(position).getProduct());
+        holder.service_rating.setRating(dataList.get(position).getService());
+        holder.ambience_rating.setRating(dataList.get(position).getAmbience());
+        holder.tv_business_name.setText(dataList.get(position).getBusiness().getName());
     }
 
     @Override
@@ -44,20 +43,22 @@ public class ViewListOfReviewsAdaptor extends RecyclerView.Adapter<ViewListOfRev
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView username;
+        TextView tv_review_title;
         TextView business_name;
-        RatingBar product;
-        RatingBar service;
-        RatingBar ambience;
-        TextView reviews;
+        RatingBar product_rating;
+        RatingBar service_rating;
+        RatingBar ambience_rating;
+        TextView tv_description;
+        TextView tv_business_name;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.username);
-            service = itemView.findViewById(R.id.ratingBarServiceReview);
-            product = itemView.findViewById(R.id.ratingBarProductReview);
-            ambience = itemView.findViewById(R.id.ratingBarAmbienceReview);
-            ambience = itemView.findViewById(R.id.reviewDescription);
+            tv_review_title = itemView.findViewById(R.id.tv_review_title);
+            tv_description = itemView.findViewById(R.id.tv_review_description);
+            product_rating = itemView.findViewById(R.id.ratingBarProductReview);
+            service_rating = itemView.findViewById(R.id.ratingBarServiceReview);
+            ambience_rating = itemView.findViewById(R.id.ratingBarAmbienceReview);
+            tv_business_name = itemView.findViewById(R.id.tv_business_name);
         }
     }
 }

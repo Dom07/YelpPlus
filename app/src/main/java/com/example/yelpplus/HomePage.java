@@ -2,6 +2,8 @@ package com.example.yelpplus;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -15,15 +17,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class HomePage extends AppCompatActivity
         implements Fragment_Home_Page.OnFragmentInteractionListener,
-        Fragment_Search_View.OnFragmentInteractionListener{
+        Fragment_Search_View.OnFragmentInteractionListener,
+        FragmentProfile.OnFragmentInteractionListener{
     public EditText et;
     boolean isLoggedIn;
     SharedPreferences pref;
     Menu menu;
     BottomNavigationView bvn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +45,22 @@ public class HomePage extends AppCompatActivity
         Log.d("LOGIN", "Login: "+pref.getBoolean("isLoggedIn", false));
 
         bvn = findViewById(R.id.bottom_navigation_view);
-        bvn.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bvn.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment selectedFragment = null;
                 switch (menuItem.getItemId()){
                     case R.id.menu_search:{
-                        ft.replace(R.id.frame_layout_home, new Fragment_Home_Page());
-                        ft.commit();
+                        selectedFragment = new Fragment_Home_Page();
                         break;
                     }
                     case R.id.menu_profile:{
-                        ft.replace(R.id.frame_layout_home, new FragmentProfile());
-                        ft.commit();
-                    }
-                    case R.id.menu_nearby:{
-//                        ft.replace(R.id.frame_layout_home, new Fragment_Nearby());
-                        ft.commit();
+                        selectedFragment = new FragmentProfile();
+                        break;
                     }
                 }
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_home, selectedFragment).commit();
+                return true;
             }
         });
     }
@@ -89,6 +92,7 @@ public class HomePage extends AppCompatActivity
                     SharedPreferences.Editor editor = pref.edit();
                     editor.remove("isLoggedIn");
                     editor.remove("emailId");
+                    editor.remove("name");
                     editor.commit();
                     isLoggedIn = false;
                 }else{
