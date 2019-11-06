@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,7 +147,8 @@ public class Fragment_Search_View extends Fragment {
 
         if(category_id!=""){
             getDataByCategory(rootView, category_id);
-        }else{
+        }
+        if(search_word!=""){
             getDataBySearch(rootView, search_word);
         }
 
@@ -234,7 +236,7 @@ public class Fragment_Search_View extends Fragment {
 
             @Override
             public void onFailure(Call<List<Business>> call, Throwable t) {
-
+                Log.e("SEARCH ERROR", ""+t);
             }
         });
     }
