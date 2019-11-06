@@ -18,6 +18,9 @@ public class Business {
     @SerializedName("address")
     private String address;
 
+    @SerializedName("claimed")
+    private Boolean claimed;
+
     public String[] getPhoto() {
         return photo;
     }
@@ -67,5 +70,13 @@ public class Business {
 
     public void setReview(List<Reviews_profile> review) {
         this.review = review;
+    }
+
+    public Boolean getClaimed() {
+        return claimed;
+    }
+
+    public void setClaimed(Boolean claimed) {
+        this.claimed = claimed;
     }
 }

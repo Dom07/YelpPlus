@@ -118,7 +118,7 @@ public class FragmentWriteReview extends Fragment {
 
         SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         if(pref.getBoolean("isLoggedIn", false)){
-            email_id = pref.getString("email_id", "");
+            email_id = pref.getString("emailId", "");
         }
         businessName.setText(business_title);
         serviceRating.setText("0");
@@ -135,7 +135,7 @@ public class FragmentWriteReview extends Fragment {
                 userReviewDescription = reviewDescription.getText().toString().trim();
 
                 GetDataService dataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                Call<Reviews_profile> call = dataService.postNewReview(email_id, business_id, userServiceRating, userProductRating, userAmbienceRating, userReviewTitle, userReviewDescription);
+                Call<Reviews_profile> call = dataService.postNewReview(business_id, email_id, userServiceRating, userProductRating, userAmbienceRating, userReviewTitle, userReviewDescription);
                 call.enqueue(new Callback<Reviews_profile>() {
                     @Override
                     public void onResponse(Call<Reviews_profile> call, Response<Reviews_profile> response) {
