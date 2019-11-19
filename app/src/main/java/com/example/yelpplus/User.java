@@ -6,6 +6,9 @@ import java.util.List;
 
 public class User {
 
+    @SerializedName("_id")
+    private String user_id;
+
     @SerializedName("first_name")
     private String first_name;
 
@@ -23,6 +26,14 @@ public class User {
 
     @SerializedName("reviews")
     private List<Reviews_profile> reviews;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public List<Reviews_profile> getReviews() {
         return reviews;

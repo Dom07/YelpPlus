@@ -15,39 +15,17 @@ public class Reviews_profile {
     @SerializedName("ambience_rating")
     private float ambience;
 
+    @SerializedName("price_rating")
+    private float price;
+
     @SerializedName("title")
     private String title;
 
     @SerializedName("description")
     private String description;
 
-    @SerializedName("business")
-    private Business business;
-
-
     @SerializedName("author")
     private String author;
-
-    public Reviews_profile (String author, float product, float service, float ambience, String title, String description, Business business)
-    {
-        this.author = author;
-        this.product = product;
-        this.service = service;
-        this.ambience = ambience;
-        this.title = title;
-        this.description = description;
-        this.business = business;
-    }
-
-    public Reviews_profile (String author, float product, float service, float ambience, String title, String description)
-    {
-        this.author = author;
-        this.product = product;
-        this.service = service;
-        this.ambience = ambience;
-        this.title = title;
-        this.description = description;
-    }
 
     public float getProduct() {
         return product;
@@ -73,6 +51,14 @@ public class Reviews_profile {
         this.ambience = ambience;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -87,14 +73,6 @@ public class Reviews_profile {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Business getBusiness() {
-        return business;
-    }
-
-    public void setBusiness(Business business) {
-        this.business = business;
     }
 
     public String getAuthor() {

@@ -27,35 +27,38 @@ public interface GetDataService {
     Call<List<Business>> getAllBusiness();
 
     //This call is used to display information on Homepage
-    @GET("/category")
+    @GET("/api/category")
     Call<List<Category>> getAllCategory();
 
     //This call gets list of businesses based on category
-    @GET("/business/{id}")
+    @GET("/api/business/viewByCategory/{id}")
     Call<List<Business>> getBusinessByCategory(@Path("id") String category_id);
 
     //This call gets list of businesses based on search
-    @GET("/search/{word}")
+    @GET("/api/business/search/{word}")
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
 
     //This call gets all the information about a particular business
-    @GET("/business/show/{id}")
+    @GET("/api/business/view/{id}")
     Call<Business> getBusinessInformation(@Path("id") String business_id);
 
-    @GET("/user/{email_id}")
-    Call<User> getProfile(@Path("email_id") String email_id);
+    // Get reviews for a user with his id
+    @GET("/api/review/{user_id}")
+    Call<List<Reviews_profile>> getProfile(@Path("user_id") String user_id);
 
-    @POST("/review/{business_id}/{email_id}/new")
+    // Add review
+    @POST("/api/review/{business_id}/{user_id}")
     @FormUrlEncoded
     Call<Reviews_profile> postNewReview(@Path("business_id") String business_id,
-                                        @Path("email_id") String email_id,
+                                        @Path("user_id") String user_id,
                                         @Field("service_rating") String service_rating,
                                         @Field("product_rating") String product_rating,
                                         @Field("ambience_rating") String ambience_rating,
+                                        @Field("price_rating") String price_rating,
                                         @Field("title") String title,
                                         @Field("description") String description);
 
-
+    // Claim Business
     @POST("/business/{business_id}/claim/{email_id}")
     Call<Business> claimBusiness(@Path("business_id") String business_id,
                                  @Path("email_id") String email_id);

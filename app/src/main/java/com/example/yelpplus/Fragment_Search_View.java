@@ -85,11 +85,10 @@ public class Fragment_Search_View extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_search_view, container, false);
-
-        if(category_id!=""){
+        if(category_id!=null){
             getDataByCategory(rootView, category_id);
         }
-        if(search_word!=""){
+        if(search_word!=null){
             getDataBySearch(rootView, search_word);
         }
 
