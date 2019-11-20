@@ -104,7 +104,7 @@ public class FragmentProfile extends Fragment {
             String email_id = pref.getString("emailId", "email");
             tv_user_name.setText(username);
             tv_email_id.setText(email_id);
-            getReviews(rootView, email_id);
+            getReviews(rootView, pref.getString("userId",""));
         }else{
             tv_login_message.setVisibility(View.VISIBLE);
             linear_layout_profile.setVisibility(View.INVISIBLE);
@@ -114,19 +114,19 @@ public class FragmentProfile extends Fragment {
         return rootView;
     }
 
-    private void getReviews(final View rootView, String email_id) {
+    private void getReviews(final View rootView, String user_id) {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<User> call = service.getProfile(email_id);
-        call.enqueue(new Callback<User>() {
+        Log.d("USER", user_id);
+        Call<List<Reviews_profile>> call = service.getProfile(user_id);
+        call.enqueue(new Callback<List<Reviews_profile>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User user = response.body();
-                generateDataList(user.getReviews(), rootView);
+            public void onResponse(Call<List<Reviews_profile>> call, Response<List<Reviews_profile>> response) {
+                generateDataList(response.body(), rootView);
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("ERROR", " "+t);
+            public void onFailure(Call<List<Reviews_profile>> call, Throwable t) {
+                Log.e("REVIEW", "Failed to fetch review "+t);
             }
         });
 

@@ -43,7 +43,7 @@ public class FragmentWriteReview extends Fragment {
     private String mParam2;
 
     private String business_id;
-    private String email_id;
+    private String user_id;
     private String business_title;
 
     private TextView businessName;
@@ -51,6 +51,7 @@ public class FragmentWriteReview extends Fragment {
     private EditText serviceRating;
     private EditText productRating;
     private EditText ambienceRating;
+    private EditText priceRating;
 
     private TextInputEditText reviewTitle;
     private TextInputEditText reviewDescription;
@@ -60,6 +61,7 @@ public class FragmentWriteReview extends Fragment {
     private String userServiceRating;
     private String userProductRating;
     private String userAmbienceRating;
+    private String userPriceRating;
     private String userReviewTitle;
     private String userReviewDescription;
 
@@ -109,6 +111,7 @@ public class FragmentWriteReview extends Fragment {
         serviceRating = rootView.findViewById(R.id.writeServiceRating);
         productRating = rootView.findViewById(R.id.writeProductRating);
         ambienceRating = rootView.findViewById(R.id.writeAmbienceRating);
+        priceRating = rootView.findViewById(R.id.writePriceRating);
 
         reviewTitle = rootView.findViewById(R.id.writeReviewTitle);
         reviewDescription = rootView.findViewById(R.id.writeReviewDescription);
@@ -118,12 +121,13 @@ public class FragmentWriteReview extends Fragment {
 
         SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         if(pref.getBoolean("isLoggedIn", false)){
-            email_id = pref.getString("emailId", "");
+            user_id = pref.getString("userId", "");
         }
         businessName.setText(business_title);
         serviceRating.setText("0");
         productRating.setText("0");
         ambienceRating.setText("0");
+        priceRating.setText("0");
 
         submitReview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,11 +135,12 @@ public class FragmentWriteReview extends Fragment {
                 userServiceRating = serviceRating.getText().toString().trim();
                 userProductRating = productRating.getText().toString().trim();
                 userAmbienceRating = ambienceRating.getText().toString().trim();
+                userPriceRating = priceRating.getText().toString().trim();
                 userReviewTitle = reviewTitle.getText().toString().trim();
                 userReviewDescription = reviewDescription.getText().toString().trim();
 
                 GetDataService dataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                Call<Reviews_profile> call = dataService.postNewReview(business_id, email_id, userServiceRating, userProductRating, userAmbienceRating, userReviewTitle, userReviewDescription);
+                Call<Reviews_profile> call = dataService.postNewReview(business_id, user_id, userServiceRating, userProductRating, userAmbienceRating, userPriceRating,  userReviewTitle, userReviewDescription);
                 call.enqueue(new Callback<Reviews_profile>() {
                     @Override
                     public void onResponse(Call<Reviews_profile> call, Response<Reviews_profile> response) {

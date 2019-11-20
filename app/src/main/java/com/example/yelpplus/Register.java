@@ -60,6 +60,7 @@ public class Register extends AppCompatActivity {
                             editor.putBoolean("isLoggedIn", true);
                             editor.putString("emailId", user.getEmailId());
                             editor.putString("name", user.getFirst_name()+" "+user.getLast_name());
+                            editor.putString("userId", user.getUser_id());
                             editor.commit();
                             Toast.makeText(getApplicationContext(), "Logged In", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Register.this, HomePage.class);

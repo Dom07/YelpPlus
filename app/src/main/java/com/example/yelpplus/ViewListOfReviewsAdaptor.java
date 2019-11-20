@@ -34,7 +34,7 @@ public class ViewListOfReviewsAdaptor extends RecyclerView.Adapter<ViewListOfRev
         holder.product_rating.setRating(dataList.get(position).getProduct());
         holder.service_rating.setRating(dataList.get(position).getService());
         holder.ambience_rating.setRating(dataList.get(position).getAmbience());
-        holder.tv_business_name.setText(dataList.get(position).getBusiness().getName());
+//        holder.tv_business_name.setText(dataList.get(position).getBusiness().getName());
     }
 
     @Override
