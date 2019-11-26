@@ -35,6 +35,11 @@ public class Business {
     @SerializedName("review")
     private List<Reviews_profile> review;
 
+    @SerializedName("event_booking_status")
+    private Boolean registered;
+
+    @SerializedName("owner")
+    private String owner_id;
 
     public String getName() {
         return name;
@@ -79,4 +84,12 @@ public class Business {
     public void setClaimed(Boolean claimed) {
         this.claimed = claimed;
     }
+
+    public Boolean getRegistered() {return registered;}
+
+    public void setRegistered(Boolean registered) {this.registered = registered;}
+
+    public String getOwner_id() {return owner_id;}
+
+    public void setOwner_id(String owner_id) {this.owner_id = owner_id;}
 }
