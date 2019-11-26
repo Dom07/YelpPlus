@@ -24,7 +24,8 @@ public class HomePage extends AppCompatActivity
         Fragment_Search_View.OnFragmentInteractionListener,
         FragmentProfile.OnFragmentInteractionListener,
         FragmentViewBusiness.OnFragmentInteractionListener,
-        FragmentWriteReview.OnFragmentInteractionListener{
+        FragmentWriteReview.OnFragmentInteractionListener,
+        FragmentConfirmAction.OnFragmentInteractionListener{
     public EditText et;
     boolean isLoggedIn;
     SharedPreferences pref;
@@ -66,8 +67,6 @@ public class HomePage extends AppCompatActivity
             }
         });
     }
-
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

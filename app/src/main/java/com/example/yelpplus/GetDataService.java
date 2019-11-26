@@ -7,6 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface GetDataService {
@@ -62,4 +63,13 @@ public interface GetDataService {
     @POST("/business/{business_id}/claim/{email_id}")
     Call<Business> claimBusiness(@Path("business_id") String business_id,
                                  @Path("email_id") String email_id);
+
+    //Claim Business V2
+    @PUT("api/business/claimBusiness/<business_id>/<user_id>")
+    Call<Business> businessClaim(@Path("business_id") String business_id,
+                                 @Path("user_id") String user_id);
+
+    //Register business for event booking
+    @PUT("api/business/enableEventBooking/<business_id>")
+    Call<Business> registerBusiness(@Path("business_id") String business_id);
 }
