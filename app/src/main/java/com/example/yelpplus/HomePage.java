@@ -100,6 +100,7 @@ public class HomePage extends AppCompatActivity
                     editor.remove("isLoggedIn");
                     editor.remove("emailId");
                     editor.remove("name");
+                    editor.remove("userId");
                     editor.commit();
                     isLoggedIn = false;
                 }else{

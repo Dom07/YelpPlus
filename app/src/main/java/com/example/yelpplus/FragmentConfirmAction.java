@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,18 +114,14 @@ public class FragmentConfirmAction extends Fragment {
                     call.enqueue(new Callback<Business>() {
                         @Override
                         public void onResponse(Call<Business> call, Response<Business> response) {
-                            if(response.code() == 200) {
+                            if(response.isSuccessful()) {
                                 changeFragment(business_id);
                             }
-                            else {
-                                Toast toast = Toast.makeText(getContext(), "There was an error in registering the business.", Toast.LENGTH_LONG);
-                                toast.show();
-                            }
                         }
-
                         @Override
                         public void onFailure(Call<Business> call, Throwable t) {
-
+                            Toast toast = Toast.makeText(getContext(), "Failure", Toast.LENGTH_LONG);
+                            toast.show();
                         }
                     });
                 }
@@ -154,7 +151,8 @@ public class FragmentConfirmAction extends Fragment {
 
                         @Override
                         public void onFailure(Call<Business> call, Throwable t) {
-
+                            Toast toast = Toast.makeText(getContext(), "Failure", Toast.LENGTH_LONG);
+                            toast.show();
                         }
                     });
                 }

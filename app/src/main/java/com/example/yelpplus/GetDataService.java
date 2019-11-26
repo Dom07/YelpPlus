@@ -57,12 +57,12 @@ public interface GetDataService {
                                         @Field("description") String description);
 
     //Claim Business V2
-    @PUT("api/business/claimBusiness/<business_id>/<user_id>")
+    @PUT("api/business/claimBusiness/{business_id}/{user_id}")
     Call<Business> businessClaim(@Path("business_id") String business_id,
                                  @Path("user_id") String user_id);
 
     //Register business for event booking
-    @PUT("api/business/enableEventBooking/<business_id>")
+    @PUT("api/business/enableEventBooking/{business_id}")
     Call<Business> registerBusiness(@Path("business_id") String business_id);
 
     // Save url to db

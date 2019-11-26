@@ -73,6 +73,7 @@ public class FragmentViewBusiness extends Fragment {
     private ListView informationList;
     private Boolean isOwner = false;
     private String warningText;
+    private String userID;
 
     private ImageView owned_tick_mark;
     private Button btn_claim_business;
@@ -145,6 +146,7 @@ public class FragmentViewBusiness extends Fragment {
         uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
+        userID = pref.getString("userId", "");
 
         final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
@@ -184,7 +186,7 @@ public class FragmentViewBusiness extends Fragment {
                         displayAction = "Available for event booking";
                     }
                     else {
-                        if (pref.getString("userId", "").equals(business.getOwner_id())) {
+                        if (!userID.isEmpty() && userID.equals(business.getOwner_id())) {
                             isOwner = true;
                             displayAction = "Register for event booking";
                         }
