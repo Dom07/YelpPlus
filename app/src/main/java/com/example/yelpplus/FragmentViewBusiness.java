@@ -13,18 +13,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -52,7 +54,6 @@ public class FragmentViewBusiness extends Fragment {
 
     private String business_id;
 
-    private ViewFlipper viewFlipper;
     private ImageView imageView;
     private String images[];
 
@@ -69,9 +70,13 @@ public class FragmentViewBusiness extends Fragment {
 
     private TextView phoneNumber;
     private TextView address;
+    private ListView informationList;
+    private Boolean isOwner = false;
+    private String warningText;
 
     private ImageView owned_tick_mark;
-    private Button btn_claim_busniess;
+    private Button btn_claim_business;
+    private Button btn_event_booking;
 
     private TextView reviewNumbers;
     private Button writeReviewButton;
@@ -114,11 +119,10 @@ public class FragmentViewBusiness extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_view_business, container, false);
 
-        //viewFlipper = rootView.findViewById(R.id.viewFlipper);
         imageView = rootView.findViewById(R.id.businessImages);
 
         businessTitle = rootView.findViewById(R.id.businessTitle);
@@ -128,14 +132,17 @@ public class FragmentViewBusiness extends Fragment {
         ambienceRating = rootView.findViewById(R.id.ratingBarAmbience);
 
         owned_tick_mark = rootView.findViewById(R.id.owned_tick_mark);
-        btn_claim_busniess = rootView.findViewById(R.id.btn_claim_business);
+        btn_claim_business = rootView.findViewById(R.id.btn_claim_business);
 
         phoneNumber = rootView.findViewById(R.id.phoneNumber);
         address = rootView.findViewById(R.id.address);
+        informationList = rootView.findViewById(R.id.informationList);
 
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
         writeReviewButton = rootView.findViewById(R.id.writeReview);
+
+        final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
 
         final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
@@ -155,24 +162,23 @@ public class FragmentViewBusiness extends Fragment {
                         .error(R.drawable.ic_launcher_background)
                         .into(imageView);
 
-
                 Log.d("REVIEWS",""+business.getReview().size());
 
                 if(business.getClaimed()){
                     owned_tick_mark.setVisibility(View.VISIBLE);
-                    btn_claim_busniess.setVisibility(View.INVISIBLE);
+                    btn_claim_business.setVisibility(View.INVISIBLE);
                 }else{
                     owned_tick_mark.setVisibility(View.INVISIBLE);
-                    btn_claim_busniess.setVisibility(View.VISIBLE);
+                    btn_claim_business.setVisibility(View.VISIBLE);
                 }
 
-                btn_claim_busniess.setOnClickListener(new View.OnClickListener() {
+                //Claim Business button
+                btn_claim_business.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
                         if(pref.getBoolean("isLoggedIn", false)){
                             owned_tick_mark.setVisibility(View.VISIBLE);
-                            btn_claim_busniess.setVisibility(View.INVISIBLE);
+                            btn_claim_business.setVisibility(View.INVISIBLE);
                             String email_id = pref.getString("emailId", "Empty");
                             Call<Business> call = service.claimBusiness(business.getBusiness_id(), email_id);
                             call.enqueue(new Callback<Business>() {
@@ -198,8 +204,67 @@ public class FragmentViewBusiness extends Fragment {
 
                 reviewNumbers.setText(""+business.getReview().size());
                 generateDataList(business.getReview(), rootView);
-            }
 
+                //Logic to figure out what text to display in List View
+                String displayAction = null;
+                if (business.getClaimed()) {
+                    if (business.getRegistered()) {
+                        displayAction = "Available for event booking";
+                    }
+                    else {
+                        if (pref.getString("userId", "").equals(business.getOwner_id())) {
+                            isOwner = true;
+                            displayAction = "Register for event booking";
+                        }
+                        else {
+                            displayAction = "Not Available for event booking";
+                        }
+                    }
+                }
+                else {
+                    displayAction = "Claim business";
+                }
+
+                //Populate List View
+                String[] listItems = {business.getPhone_number(), business.getAddress(), displayAction};
+                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
+                informationList.setAdapter(adapter);
+
+                //What to do when listView is clicked. Send user to appropriate page.
+                informationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        //Third listView with action items
+                        if (position == 2)
+                        {
+                            //Arguments for confirm Action page
+                            Bundle argsConfirmPage = new Bundle();
+                            argsConfirmPage.putBoolean("claimed", business.getClaimed());
+                            argsConfirmPage.putBoolean("registered", business.getRegistered());
+                            argsConfirmPage.putString("business_id", business_id);
+                            argsConfirmPage.putString("business_name", business.getName());
+
+                            //Navigate to pages based on the text displayed in listView. Same if statement logic as before.
+                            if (business.getClaimed()) {
+                                if (business.getRegistered()) {
+                                    //Go to event booking
+                                }
+                                else {
+                                    if (pref.getString("userId", "").equals(business.getOwner_id()) ) {
+                                        goToConfirmActionPage(argsConfirmPage);
+                                    }
+                                    else {
+                                        //do nothing
+                                    }
+                                }
+                            }
+                            else {
+                                goToConfirmActionPage(argsConfirmPage);
+                            }
+                        }
+                    }
+                });
+            }
             @Override
             public void onFailure(Call<Business> call, Throwable t) {
                 Log.e("ERROR", ""+t);
@@ -209,7 +274,6 @@ public class FragmentViewBusiness extends Fragment {
         writeReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
                 if(pref.getBoolean("isLoggedIn", false)){
                     Bundle args = new Bundle();
                     args.putString("business_id", business_id);
@@ -230,6 +294,9 @@ public class FragmentViewBusiness extends Fragment {
                 }
             }
         });
+
+
+
         return rootView;
     }
 
@@ -280,4 +347,16 @@ public class FragmentViewBusiness extends Fragment {
         recyclerView.setAdapter(adaptor);
     }
 
+    // Go to confirm action fragment
+    public void goToConfirmActionPage (Bundle args)
+    {
+        FragmentConfirmAction fragment = new FragmentConfirmAction();
+        fragment.setArguments(args);
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout_home, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
