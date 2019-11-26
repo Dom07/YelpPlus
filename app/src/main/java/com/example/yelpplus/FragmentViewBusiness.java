@@ -62,6 +62,7 @@ public class FragmentViewBusiness extends Fragment {
 
     private TextView reviewNumbers;
     private Button writeReviewButton;
+    private Button uploadImageButton;
     private RecyclerView recyclerView;
 
     private ViewBusinessAdaptor adaptor;
@@ -120,6 +121,7 @@ public class FragmentViewBusiness extends Fragment {
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
         writeReviewButton = rootView.findViewById(R.id.writeReview);
+        uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
 
         final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
@@ -202,6 +204,22 @@ public class FragmentViewBusiness extends Fragment {
                     Toast toast = Toast.makeText(getContext(), "You need to Log In to write review", Toast.LENGTH_LONG);
                     toast.show();
                 }
+            }
+        });
+
+        uploadImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("business_id", business_id);
+                FragmentUploadPhoto fragment = new FragmentUploadPhoto();
+                fragment.setArguments(args);
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         return rootView;
