@@ -24,9 +24,6 @@ public interface GetDataService {
                             @Field("email_id") String emailId,
                             @Field("password") String password);
 
-    @GET("/business")
-    Call<List<Business>> getAllBusiness();
-
     //This call is used to display information on Homepage
     @GET("/api/category")
     Call<List<Category>> getAllCategory();
@@ -59,11 +56,6 @@ public interface GetDataService {
                                         @Field("title") String title,
                                         @Field("description") String description);
 
-    // Claim Business
-    @POST("/business/{business_id}/claim/{email_id}")
-    Call<Business> claimBusiness(@Path("business_id") String business_id,
-                                 @Path("email_id") String email_id);
-
     //Claim Business V2
     @PUT("api/business/claimBusiness/<business_id>/<user_id>")
     Call<Business> businessClaim(@Path("business_id") String business_id,
@@ -72,4 +64,10 @@ public interface GetDataService {
     //Register business for event booking
     @PUT("api/business/enableEventBooking/<business_id>")
     Call<Business> registerBusiness(@Path("business_id") String business_id);
+
+    // Save url to db
+    @PUT("/api/business/addImage/{business_id}")
+    @FormUrlEncoded
+    Call<ImageUrl> uploadImage(@Path("business_id") String business_id,
+                               @Field("url") String url);
 }

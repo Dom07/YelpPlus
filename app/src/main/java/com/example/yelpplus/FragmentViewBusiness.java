@@ -80,6 +80,7 @@ public class FragmentViewBusiness extends Fragment {
 
     private TextView reviewNumbers;
     private Button writeReviewButton;
+    private Button uploadImageButton;
     private RecyclerView recyclerView;
 
     private ViewBusinessAdaptor adaptor;
@@ -141,6 +142,7 @@ public class FragmentViewBusiness extends Fragment {
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
         writeReviewButton = rootView.findViewById(R.id.writeReview);
+        uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
 
@@ -171,36 +173,6 @@ public class FragmentViewBusiness extends Fragment {
                     owned_tick_mark.setVisibility(View.INVISIBLE);
                     btn_claim_business.setVisibility(View.VISIBLE);
                 }
-
-                //Claim Business button
-                btn_claim_business.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(pref.getBoolean("isLoggedIn", false)){
-                            owned_tick_mark.setVisibility(View.VISIBLE);
-                            btn_claim_business.setVisibility(View.INVISIBLE);
-                            String email_id = pref.getString("emailId", "Empty");
-                            Call<Business> call = service.claimBusiness(business.getBusiness_id(), email_id);
-                            call.enqueue(new Callback<Business>() {
-                                @Override
-                                public void onResponse(Call<Business> call, Response<Business> response) {
-                                    if(response.isSuccessful()){
-                                        Toast.makeText(getContext(), "You have claimed the business", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Toast.makeText(getContext(), "Something went wrong. Please try again later", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<Business> call, Throwable t) {
-                                    Log.e("CLAIM ERROR", ""+t);
-                                }
-                            });
-                        }else{
-                            Toast.makeText(getContext(),"You need to be logged in to perform this action", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
                 reviewNumbers.setText(""+business.getReview().size());
                 generateDataList(business.getReview(), rootView);
@@ -295,8 +267,21 @@ public class FragmentViewBusiness extends Fragment {
             }
         });
 
-
-
+        uploadImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("business_id", business_id);
+                FragmentUploadPhoto fragment = new FragmentUploadPhoto();
+                fragment.setArguments(args);
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return rootView;
     }
 

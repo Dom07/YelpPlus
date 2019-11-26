@@ -1,12 +1,17 @@
 package com.example.yelpplus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,11 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,7 +74,6 @@ public class FragmentWriteReview extends Fragment {
     private String userReviewDescription;
 
     private OnFragmentInteractionListener mListener;
-
 
 
     public FragmentWriteReview() {
@@ -117,7 +124,6 @@ public class FragmentWriteReview extends Fragment {
         reviewDescription = rootView.findViewById(R.id.writeReviewDescription);
 
         submitReview = rootView.findViewById(R.id.submitReview);
-
 
         SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         if(pref.getBoolean("isLoggedIn", false)){
@@ -209,8 +215,40 @@ public class FragmentWriteReview extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if(data!=null && data.getData()!=null){
+//            try{
+//                Uri uri = data.getData();
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+//                switch (requestCode){
+//                    case PICK_IMAGE_REQUEST_ONE:{
+//                        upload_image_one.setImageBitmap(bitmap);
+//                        break;
+//                    }
+//                    case PICK_IMAGE_REQUEST_TWO:{
+//                        upload_image_two.setImageBitmap(bitmap);
+//                        break;
+//                    }
+//                    case PICK_IMAGE_REQUEST_THREE:{
+//                        upload_image_three.setImageBitmap(bitmap);
+//                        break;
+//                    }
+//                    case PICK_IMAGE_REQUEST_FOUR:{
+//                        upload_image_four.setImageBitmap(bitmap);
+//                        break;
+//                    }
+//                }
+//            }catch (IOException e){
+//                Log.e("Bitmap ERROR",""+e);
+//            }
+//        }
     }
 }
