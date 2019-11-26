@@ -29,6 +29,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -51,6 +55,7 @@ public class FragmentUploadPhoto extends Fragment {
     private ImageView iv_upload_image;
     private Button btn_upload_image;
     private String mediaPath;
+    private String business_id;
     private Uri selectedImage;
 
     private OnFragmentInteractionListener mListener;
@@ -83,6 +88,7 @@ public class FragmentUploadPhoto extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            business_id = getArguments().getString("business_id", null);
         }
     }
 
@@ -110,30 +116,6 @@ public class FragmentUploadPhoto extends Fragment {
                     Toast.makeText(getContext(), "Please select an image", Toast.LENGTH_SHORT).show();
                 }
             }
-//                    Log.d("FILE", "FILE PATH"+mediaPath);
-//                    RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-//                    MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), mFile);
-//                    RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-//                    GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-//                    Call<UploadObject> fileUpload = service.uploadImage(fileToUpload, filename);
-//                    fileUpload.enqueue(new Callback<UploadObject>() {
-//                        @Override
-//                        public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
-//                            UploadObject uploadObject = response.body();
-//                            Toast.makeText(getContext(), "Upload Successfull", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<UploadObject> call, Throwable t) {
-//                            Log.d("ERROR", "Error while uploading"+t);
-//                            Toast.makeText(getContext(), "Upload Error", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }else{
-//                    Log.d("NULL URL", "URI IS NULL");
-//                }
-//            }
-//        });
         });
         return rootView;
     }
@@ -230,9 +212,34 @@ public class FragmentUploadPhoto extends Fragment {
                 Cloudinary cloudinary = new Cloudinary(config);
                 try {
                     Map response = cloudinary.uploader().upload(mediaPath, ObjectUtils.emptyMap());
-                    String id = (String) response.get("public_id");
                     String url = (String) response.get("url");
-                    Log.d("URL", "URL FOR IMG: "+url);
+                    final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                    Call<ImageUrl> call = service.uploadImage(business_id, url);
+                    call.enqueue(new Callback<ImageUrl>() {
+                        @Override
+                        public void onResponse(Call<ImageUrl> call, Response<ImageUrl> response) {
+                            if(response.isSuccessful()){
+                                Bundle args = new Bundle();
+                                args.putString("business_id", business_id);
+                                FragmentViewBusiness fragment = new FragmentViewBusiness();
+                                fragment.setArguments(args);
+                                getActivity()
+                                        .getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.frame_layout_home, fragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }else{
+                                Log.d("Image Upload", "Image upload failed");
+                                Toast.makeText(getContext(), "Something went wrong please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ImageUrl> call, Throwable t) {
+
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
