@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class FragmentConfirmAction extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView businessName;
+    private TextView title;
     private TextView warningText;
     private Button confirmYes;
     private Button confirmNo;
@@ -47,7 +46,9 @@ public class FragmentConfirmAction extends Fragment {
     private Boolean registered;
     private String business_id;
     private String user_id;
-    private String business_name;
+    private String name;
+    private Boolean followReviewer;
+    private String reviewerID;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,8 +82,9 @@ public class FragmentConfirmAction extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
             claimed = getArguments().getBoolean("claimed");
             registered = getArguments().getBoolean("registered");
+            followReviewer = getArguments().getBoolean("follow_reviewer");
             business_id = getArguments().getString("business_id");
-            business_name = getArguments().getString("business_name");
+            name = getArguments().getString("name");
         }
     }
 
@@ -91,19 +93,20 @@ public class FragmentConfirmAction extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_confirm_action, container, false);
 
-        businessName = rootView.findViewById(R.id.confirmBusinessName);
+        title = rootView.findViewById(R.id.confirmBusinessName);
         warningText = rootView.findViewById(R.id.confirmWarningText);
         confirmYes = rootView.findViewById(R.id.confirmYesButton);
         confirmNo = rootView.findViewById(R.id.confirmNoButton);
 
-        businessName.setText(business_name);
+
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         user_id = pref.getString("userId","");
 
         //Register Business for event booking
-        if (claimed) {
+        if (!registered) {
             warningMessage = "Are you sure you want to register business for event booking?";
+            title.setText(name);
             warningText.setText(warningMessage);
 
             confirmYes.setOnClickListener(new View.OnClickListener() {
@@ -128,8 +131,9 @@ public class FragmentConfirmAction extends Fragment {
             });
         }
         //Claim Business
-        else {
+        if (!claimed) {
             warningMessage = "Are you sure you want to claim the business";
+            title.setText(name);
             warningText.setText(warningMessage);
 
             confirmYes.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +144,7 @@ public class FragmentConfirmAction extends Fragment {
                     call.enqueue(new Callback<Business>() {
                         @Override
                         public void onResponse(Call<Business> call, Response<Business> response) {
-                            if(response.code() == 200) {
+                            if(response.isSuccessful()) {
                                 changeFragment(business_id);
                             }
                             else {
@@ -155,6 +159,20 @@ public class FragmentConfirmAction extends Fragment {
                             toast.show();
                         }
                     });
+                }
+            });
+        }
+
+        if (followReviewer)
+        {
+            warningMessage = "Do you want to follow the mentioned reviewer?";
+            title.setText(name);
+            warningText.setText(warningMessage);
+
+            confirmYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
                 }
             });
         }
