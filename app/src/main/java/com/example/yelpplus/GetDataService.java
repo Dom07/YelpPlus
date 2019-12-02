@@ -28,15 +28,15 @@ public interface GetDataService {
     @GET("/api/category")
     Call<List<Category>> getAllCategory();
 
-    //This call gets list of businesses based on category
+    //Get list of businesses based on category
     @GET("/api/business/viewByCategory/{id}")
     Call<List<Business>> getBusinessByCategory(@Path("id") String category_id);
 
-    //This call gets list of businesses based on search
+    //Get list of businesses based on search
     @GET("/api/business/search/{word}")
     Call<List<Business>> getBusinessBySearch(@Path("word") String word);
 
-    //This call gets all the information about a particular business
+    //Get all the information about a particular business
     @GET("/api/business/view/{id}")
     Call<Business> getBusinessInformation(@Path("id") String business_id);
 
@@ -56,13 +56,13 @@ public interface GetDataService {
                                         @Field("title") String title,
                                         @Field("description") String description);
 
-    //Claim Business V2
-    @PUT("api/business/claimBusiness/{business_id}/{user_id}")
+    //Claim Business
+    @PUT("/api/business/claimBusiness/{business_id}/{user_id}")
     Call<Business> businessClaim(@Path("business_id") String business_id,
                                  @Path("user_id") String user_id);
 
     //Register business for event booking
-    @PUT("api/business/enableEventBooking/{business_id}")
+    @PUT("/api/business/enableEventBooking/{business_id}")
     Call<Business> registerBusiness(@Path("business_id") String business_id);
 
     // Save url to db
@@ -70,4 +70,22 @@ public interface GetDataService {
     @FormUrlEncoded
     Call<ImageUrl> uploadImage(@Path("business_id") String business_id,
                                @Field("url") String url);
+
+    //Send event booking information to database
+    @POST("/api/event/createEvent/{user_id}/{business_id}")
+    @FormUrlEncoded
+    Call<EventBooking> postNewEvent(@Path("business_id") String business_id,
+                                        @Path("user_id") String user_id,
+                                        @Field("date") String date,
+                                        @Field("time") String time,
+                                        @Field("guest_count") String guestCount,
+                                        @Field("menu") String[] menu);
+
+    //Get all events for a particular business
+    @GET("/api/event/getAllEvents/{business_id}")
+    Call<Business> getEventBookingInfo(@Path("business_id") String business_id);
+
+    //Get all events for user
+    @GET("/api/event/getEvents/{user_id}")
+    Call<EventBooking> getUserEvents(@Path("user_id") String user_id);
 }
