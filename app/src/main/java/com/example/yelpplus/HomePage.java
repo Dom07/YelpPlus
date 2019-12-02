@@ -29,7 +29,8 @@ public class HomePage extends AppCompatActivity
         FragmentViewBusiness.OnFragmentInteractionListener,
         FragmentWriteReview.OnFragmentInteractionListener,
         FragmentConfirmAction.OnFragmentInteractionListener,
-        FragmentUploadPhoto.OnFragmentInteractionListener{
+        FragmentUploadPhoto.OnFragmentInteractionListener,
+        FragmentBookEvent.OnFragmentInteractionListener{
     public EditText et;
     boolean isLoggedIn;
     SharedPreferences pref;
