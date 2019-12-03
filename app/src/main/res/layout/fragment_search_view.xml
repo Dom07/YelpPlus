@@ -11,6 +11,26 @@
         android:iconifiedByDefault="false"
         android:focusable="false"/>
 
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            android:id="@+id/tb_event_booking"
+            android:textOff="Event\nBooking"
+            android:textOn="Event\nBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ToggleButton
+            android:id="@+id/tb_sort_price"
+            android:textOff="Sort by\nPrice"
+            android:textOn="Sort by\nPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"

@@ -81,12 +81,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="Your Reviews:"
+            android:text="Booked Events:"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/review_list"
+            android:id="@+id/rcv_booked_event_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp" />

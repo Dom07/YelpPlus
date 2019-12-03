@@ -85,11 +85,9 @@ public interface GetDataService {
     @GET("/api/event/getAllEvents/{business_id}")
     Call<Business> getEventBookingInfo(@Path("business_id") String business_id);
 
-    //Get all events for user
-    @GET("/api/event/getEvents/{user_id}")
-    Call<EventBooking> getUserEvents(@Path("user_id") String user_id);
-
     @POST("/api/user/addFollowing/{user_id}/{secondary_id}")
     Call<User> followUser(@Path("user_id") String user_id,
                           @Path("secondary_id") String secondary_id);
+
+    Call<List<EventBooking>> getUserEvents(@Path("user_id") String user_id);
 }

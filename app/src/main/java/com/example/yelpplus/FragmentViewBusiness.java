@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.net.Inet4Address;
 import java.util.List;
 
 import retrofit2.Call;
@@ -73,6 +75,9 @@ public class FragmentViewBusiness extends Fragment {
     private ImageView owned_tick_mark;
 
     private TextView reviewNumbers;
+
+    private Button reviewPageButton;
+
     private RecyclerView recyclerView;
 
     private ViewBusinessAdaptor adaptor;
@@ -130,6 +135,9 @@ public class FragmentViewBusiness extends Fragment {
 
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
 
+
+        reviewPageButton = rootView.findViewById(R.id.btn_review_page);
+
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         userID = pref.getString("userId", "");
 
@@ -141,6 +149,10 @@ public class FragmentViewBusiness extends Fragment {
                 final Business business = response.body();
                 businessTitle.setText(business.getName());
                 images = business.getPhoto();
+                serviceRating.setRating(Integer.valueOf(business.getAvg_service_rating()));
+                ambienceRating.setRating(Integer.valueOf(business.getAvg_ambience_rating()));
+                productRating.setRating(Integer.valueOf(business.getAvg_product_rating()));;
+                averageRating.setRating(Integer.valueOf(business.getAvg_rating()));
 
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -302,6 +314,21 @@ public class FragmentViewBusiness extends Fragment {
             @Override
             public void onFailure(Call<Business> call, Throwable t) {
                 Log.e("ERROR", ""+t);
+            }
+        });
+        reviewPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("business_id", business_id);
+                FragmentReviewPage fragment = new FragmentReviewPage();
+                fragment.setArguments(args);
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         return rootView;

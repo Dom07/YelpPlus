@@ -49,7 +49,7 @@ public class FragmentProfile extends Fragment {
     private LinearLayout linear_layout_profile;
     private TextView tv_label_your_review;
 
-    private ViewListOfReviewsAdaptor adaptor;
+    private ListOfEventsAdaptor adaptor;
     private RecyclerView recyclerView;
 
     private OnFragmentInteractionListener mListener;
@@ -104,32 +104,30 @@ public class FragmentProfile extends Fragment {
             String email_id = pref.getString("emailId", "email");
             tv_user_name.setText(username);
             tv_email_id.setText(email_id);
-            getReviews(rootView, pref.getString("userId",""));
+            getEvents(rootView, pref.getString("userId",""));
         }else{
             tv_login_message.setVisibility(View.VISIBLE);
             linear_layout_profile.setVisibility(View.INVISIBLE);
             tv_label_your_review.setVisibility(View.INVISIBLE);
         }
-
         return rootView;
     }
 
-    private void getReviews(final View rootView, String user_id) {
+    private void getEvents(final View rootView, String user_id) {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Log.d("USER", user_id);
-        Call<List<Reviews_profile>> call = service.getProfile(user_id);
-        call.enqueue(new Callback<List<Reviews_profile>>() {
+        Call<List<EventBooking>> call = service.getUserEvents(user_id);
+        call.enqueue(new Callback<List<EventBooking>>() {
             @Override
-            public void onResponse(Call<List<Reviews_profile>> call, Response<List<Reviews_profile>> response) {
-                generateDataList(response.body(), rootView);
+            public void onResponse(Call<List<EventBooking>> call, Response<List<EventBooking>> response) {
+                List<EventBooking> events = response.body();
+                generateDataList(events, rootView);
             }
 
             @Override
-            public void onFailure(Call<List<Reviews_profile>> call, Throwable t) {
-                Log.e("REVIEW", "Failed to fetch review "+t);
+            public void onFailure(Call<List<EventBooking>> call, Throwable t) {
+                Log.e("ERROR",""+t);
             }
         });
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -171,9 +169,9 @@ public class FragmentProfile extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void generateDataList(List<Reviews_profile> reviews, View view){
-        recyclerView = view.findViewById(R.id.review_list);
-        adaptor = new ViewListOfReviewsAdaptor(reviews, getContext());
+    private void generateDataList(List<EventBooking> events, View view){
+        recyclerView = view.findViewById(R.id.rcv_booked_event_list);
+        adaptor = new ListOfEventsAdaptor(events, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adaptor);
     }

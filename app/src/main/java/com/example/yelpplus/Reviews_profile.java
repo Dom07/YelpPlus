@@ -30,6 +30,9 @@ public class Reviews_profile {
     @SerializedName("user")
     private String userID;
 
+    @SerializedName("date")
+    private String date;
+
     public float getProduct() {
         return product;
     }
@@ -92,5 +95,9 @@ public class Reviews_profile {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getDate() {
+        return date;
     }
 }
