@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class FragmentBookEvent extends Fragment {
     private Button submitButton;
 
     private String[] finalMenu;
+    private String[] databaseMenu;
 
     private String businessID;
     private String userID;
@@ -126,7 +128,7 @@ public class FragmentBookEvent extends Fragment {
             @Override
             public void onResponse(Call<Business> call, Response<Business> response) {
                 final Business business = response.body();
-                final String[] menu = business.getMenu();
+                databaseMenu = business.getMenu();
                 final List<EventBooking> events = business.getEvents();
 
                 dateButton.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +187,8 @@ public class FragmentBookEvent extends Fragment {
                     }
                 });
 
-                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, business.getMenu());
+                menuListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_multiple_choice, business.getMenu());
                 menuListView.setAdapter(listAdapter);
 
             }
@@ -200,8 +203,22 @@ public class FragmentBookEvent extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] tempMenu = new String[]{"FIres", "Soda"};
-                Call<EventBooking> call2 = dataService.postNewEvent(businessID, userID, dateButton.getText().toString(), timeDropDown.getSelectedItem().toString(), totalGuests.getText().toString(), tempMenu);
+                SparseBooleanArray booleanArray = menuListView.getCheckedItemPositions();
+                ArrayList<String> itemLists = new ArrayList<String>();
+                for (int i = 0; i < databaseMenu.length; i++)
+                {
+                    if (menuListView.isItemChecked(i))
+                    {
+                        itemLists.add(menuListView.getItemAtPosition(i).toString());
+                    }
+                }
+                finalMenu = new String[itemLists.size()];
+                for (int i = 0; i < itemLists.size(); i++)
+                {
+                    finalMenu[i] = itemLists.get(i);
+                }
+                String day = totalGuests.getText().toString();
+                Call<EventBooking> call2 = dataService.postNewEvent(businessID, userID, dateButton.getText().toString(), timeDropDown.getSelectedItem().toString(), totalGuests.getText().toString(), finalMenu);
                 call2.enqueue(new Callback<EventBooking>() {
                     @Override
                     public void onResponse(Call<EventBooking> call, Response<EventBooking> response) {
