@@ -3,122 +3,123 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginEnd="10dp">
-
-    <TextView
-        android:id="@+id/businessNameBooking"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:text="BUSINESS"
-        android:textSize="12pt"/>
-
-    <!--Guest, date and time information-->
-    <LinearLayout
-        android:id="@+id/bookingInfo"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/businessNameBooking"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp">
-
-        <!--Number of Guests-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
-
-            <TextView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="Number of Guests:"
-                android:textSize="8pt" />
-
-            <EditText
-                android:id="@+id/numberOfGuests"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="2"
-                android:inputType="number" />
-        </LinearLayout>
-
-        <!--Date-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
-
-            <TextView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="Date:"
-                android:textSize="8pt"/>
-
-            <Button
-                android:id="@+id/pickDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pick Date" />
-        </LinearLayout>
-
-        <!--Time-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:text="Time:"
-                android:textSize="8pt"/>
-
-            <Spinner
-                android:id="@+id/timeOptions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/menuLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/bookingInfo">
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp">
 
         <TextView
+            android:id="@+id/businessNameBooking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:text="BUSINESS"
+            android:textSize="12pt"/>
+
+        <!--Guest, date and time information-->
+        <LinearLayout
+            android:id="@+id/bookingInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MENU"
-            android:textSize="8pt"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginBottom="20dp"/>
+            android:orientation="vertical"
+            android:layout_below="@+id/businessNameBooking"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp">
 
-        <ListView
-            android:id="@+id/menuList"
+            <!--Number of Guests-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="Number of Guests:"
+                    android:textSize="8pt" />
+
+                <EditText
+                    android:id="@+id/numberOfGuests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="2"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <!--Date-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textSize="8pt"/>
+
+                <Button
+                    android:id="@+id/pickDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pick Date" />
+            </LinearLayout>
+
+            <!--Time-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="Time:"
+                    android:textSize="8pt"/>
+
+                <Spinner
+                    android:id="@+id/timeOptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menuLayout"
             android:layout_width="match_parent"
-            android:layout_height="360dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/bookingInfo">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MENU"
+                android:textSize="8pt"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/eventBookingSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:layout_below="@id/menuLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
-</RelativeLayout>
+            <ListView
+                android:id="@+id/menuList"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/eventBookingSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUBMIT"
+            android:layout_below="@id/menuLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"/>
+    </RelativeLayout>
 </ScrollView>
