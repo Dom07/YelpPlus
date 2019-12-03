@@ -3,6 +3,7 @@ package com.example.yelpplus;
 import android.content.Context;
 import android.media.Rating;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
         holder.reviewTitle.setText(dataList.get(position).getTitle());
         holder.reviewDescription.setText(dataList.get(position).getDescription());
         final String name = dataList.get(position).getAuthor();
+        final String userID = dataList.get(position).getUserID();
 
         holder.reviewCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +58,7 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
                 args.putBoolean("follow_reviewer", true);
                 args.putString("business_id", businessID);
                 args.putString("name",name);
-                args.putString("reviewer_id", null);
+                args.putString("reviewer_id", userID);
 
                 AppCompatActivity activity = (AppCompatActivity)view.getContext();
 
@@ -68,7 +70,6 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
                         .commit();
             }
         });
-
     }
 
     @Override
