@@ -38,15 +38,6 @@
             android:layout_height="30dp"
             android:visibility="invisible"/>
 
-        <Button
-            android:id="@+id/btn_claim_business"
-            android:layout_toRightOf="@+id/businessTitle"
-            android:layout_below="@+id/businessImages"
-            android:text="Claim Business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"/>
-
         <LinearLayout
             android:id="@+id/businessRating"
             android:layout_width="wrap_content"
@@ -147,93 +138,19 @@
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="20dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="More Information:"
-                android:textStyle="bold"
-                android:textSize="8pt"/>
-
-            <LinearLayout
-                android:id="@+id/phoneNumberLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Phone Number:"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="10dp"/>
-
-                <TextView
-                    android:id="@+id/phoneNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/addressLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Address:"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="10dp"/>
-
-                <TextView
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-            </LinearLayout>
-
             <ListView
                 android:id="@+id/informationList"
                 android:layout_width="match_parent"
-                android:layout_height="199dp" />
+                android:layout_height="275dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/input_panel"
-            android:layout_below="@+id/moreInformation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_open_upload_fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Upload Image"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/writeReview"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Write Review"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/reviewLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_below="@id/input_panel"
+            android:layout_below="@id/moreInformation"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp">

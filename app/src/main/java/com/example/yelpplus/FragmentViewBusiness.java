@@ -69,20 +69,13 @@ public class FragmentViewBusiness extends Fragment {
 
     private TextView subCategories;
 
-    private TextView phoneNumber;
-    private TextView address;
     private ListView informationList;
     private Boolean isOwner = false;
-    private String warningText;
     private String userID;
 
     private ImageView owned_tick_mark;
-    private Button btn_claim_business;
-    private Button btn_event_booking;
 
     private TextView reviewNumbers;
-    private Button writeReviewButton;
-    private Button uploadImageButton;
     private RecyclerView recyclerView;
 
     private ViewBusinessAdaptor adaptor;
@@ -135,16 +128,10 @@ public class FragmentViewBusiness extends Fragment {
         ambienceRating = rootView.findViewById(R.id.ratingBarAmbience);
 
         owned_tick_mark = rootView.findViewById(R.id.owned_tick_mark);
-        btn_claim_business = rootView.findViewById(R.id.btn_claim_business);
 
-        phoneNumber = rootView.findViewById(R.id.phoneNumber);
-        address = rootView.findViewById(R.id.address);
         informationList = rootView.findViewById(R.id.informationList);
 
         reviewNumbers = rootView.findViewById(R.id.reviewNumbers);
-
-        writeReviewButton = rootView.findViewById(R.id.writeReview);
-        uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         userID = pref.getString("userId", "");
@@ -156,8 +143,6 @@ public class FragmentViewBusiness extends Fragment {
             public void onResponse(Call<Business> call, Response<Business> response) {
                 final Business business = response.body();
                 businessTitle.setText(business.getName());
-                phoneNumber.setText(business.getPhone_number());
-                address.setText(business.getAddress());
                 images = business.getPhoto();
 
                 Picasso.Builder builder = new Picasso.Builder(getContext());
@@ -171,10 +156,8 @@ public class FragmentViewBusiness extends Fragment {
 
                 if(business.getClaimed()){
                     owned_tick_mark.setVisibility(View.VISIBLE);
-                    btn_claim_business.setVisibility(View.INVISIBLE);
                 }else{
                     owned_tick_mark.setVisibility(View.INVISIBLE);
-                    btn_claim_business.setVisibility(View.VISIBLE);
                 }
 
                 reviewNumbers.setText(""+business.getReview().size());
@@ -201,7 +184,7 @@ public class FragmentViewBusiness extends Fragment {
                 }
 
                 //Populate List View
-                String[] listItems = {business.getPhone_number(), business.getAddress(), displayAction};
+                String[] listItems = {"Phone: " + business.getPhone_number(), "Address: " + business.getAddress(), displayAction, "Upload photos", "Write Review"};
                 ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, listItems);
                 informationList.setAdapter(adapter);
 
@@ -210,6 +193,7 @@ public class FragmentViewBusiness extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+                        //Address. Go to Google Maps
                         if (position == 1)
                         {
                             String uri = "http://maps.google.com/maps?&daddr=40.730762,-74.060281";
@@ -256,52 +240,48 @@ public class FragmentViewBusiness extends Fragment {
                                 goToConfirmActionPage(argsConfirmPage);
                             }
                         }
+
+                        //Upload Photo
+                        if (position == 3) {
+                            Bundle args = new Bundle();
+                            args.putString("business_id", business_id);
+                            FragmentUploadPhoto fragment = new FragmentUploadPhoto();
+                            fragment.setArguments(args);
+                            getActivity()
+                                    .getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.frame_layout_home, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+
+                        //Write Review
+                        if (position == 4){
+                            if(pref.getBoolean("isLoggedIn", false)){
+                                Bundle args = new Bundle();
+                                args.putString("business_id", business_id);
+                                args.putString("business_title", businessTitle.toString());
+                                FragmentWriteReview fragment = new FragmentWriteReview();
+                                fragment.setArguments(args);
+                                getActivity()
+                                        .getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.frame_layout_home, fragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                            else
+                            {
+                                Toast toast = Toast.makeText(getContext(), "You need to Log In to write review", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                        }
                     }
                 });
             }
             @Override
             public void onFailure(Call<Business> call, Throwable t) {
                 Log.e("ERROR", ""+t);
-            }
-        });
-
-        writeReviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(pref.getBoolean("isLoggedIn", false)){
-                    Bundle args = new Bundle();
-                    args.putString("business_id", business_id);
-                    args.putString("business_title", businessTitle.toString());
-                    FragmentWriteReview fragment = new FragmentWriteReview();
-                    fragment.setArguments(args);
-                    getActivity()
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout_home, fragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-                else
-                {
-                    Toast toast = Toast.makeText(getContext(), "You need to Log In to write review", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-        });
-
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putString("business_id", business_id);
-                FragmentUploadPhoto fragment = new FragmentUploadPhoto();
-                fragment.setArguments(args);
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame_layout_home, fragment)
-                        .addToBackStack(null)
-                        .commit();
             }
         });
         return rootView;
