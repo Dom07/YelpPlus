@@ -16,14 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 
 import com.squareup.picasso.OkHttp3Downloader;
@@ -145,6 +142,24 @@ public class FragmentViewBusiness extends Fragment {
                 businessTitle.setText(business.getName());
                 images = business.getPhoto();
 
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle args = new Bundle();
+                        args.putStringArray("images", images);
+                        args.putString("businessName", business.getName());
+                        FragmentViewPhotos fragment = new FragmentViewPhotos();
+                        fragment.setArguments(args);
+                        getActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame_layout_home, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+
+
                 Picasso.Builder builder = new Picasso.Builder(getContext());
                 builder.downloader(new OkHttp3Downloader(getContext()));
                 builder.build().load(images[0])
@@ -152,7 +167,6 @@ public class FragmentViewBusiness extends Fragment {
                         .error(R.drawable.ic_launcher_background)
                         .into(imageView);
 
-                Log.d("REVIEWS",""+business.getReview().size());
 
                 if(business.getClaimed()){
                     owned_tick_mark.setVisibility(View.VISIBLE);
