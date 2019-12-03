@@ -41,6 +41,12 @@ public class Business {
     @SerializedName("owner")
     private String owner_id;
 
+    @SerializedName("menu")
+    private String[] menu;
+
+    @SerializedName("event")
+    private List<EventBooking> events;
+
     public String getName() {
         return name;
     }
@@ -92,4 +98,20 @@ public class Business {
     public String getOwner_id() {return owner_id;}
 
     public void setOwner_id(String owner_id) {this.owner_id = owner_id;}
+
+    public String[] getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String[] menu) {
+        this.menu = menu;
+    }
+
+    public List<EventBooking> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventBooking> events) {
+        this.events = events;
+    }
 }

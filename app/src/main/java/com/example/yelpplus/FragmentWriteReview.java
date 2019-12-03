@@ -166,13 +166,13 @@ public class FragmentWriteReview extends Fragment {
                         {
                             Toast toast = Toast.makeText(getContext(), "There was error in creating the review.", Toast.LENGTH_LONG);
                             toast.show();
-                            Log.d("REVIEWS",""+response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Reviews_profile> call, Throwable t) {
-                        Log.e("ERROR", ""+t);
+                        Toast toast = Toast.makeText(getContext(), "Failure", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
             }

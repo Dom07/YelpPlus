@@ -27,6 +27,9 @@ public class Reviews_profile {
     @SerializedName("author")
     private String author;
 
+    @SerializedName("user")
+    private String userID;
+
     public float getProduct() {
         return product;
     }
@@ -81,5 +84,13 @@ public class Reviews_profile {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

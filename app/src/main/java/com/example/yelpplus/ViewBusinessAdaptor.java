@@ -2,6 +2,7 @@ package com.example.yelpplus;
 
 import android.content.Context;
 import android.media.Rating;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -18,10 +21,12 @@ import java.util.List;
 public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdaptor.MyViewHolder> {
     private List<Reviews_profile> dataList;
     private Context context;
+    private String businessID;
 
-    public ViewBusinessAdaptor(List<Reviews_profile> dataList, Context context){
+    public ViewBusinessAdaptor(List<Reviews_profile> dataList, Context context, String business_id){
         this.dataList = dataList;
         this.context = context;
+        this.businessID = business_id;
     }
 
     @NonNull
@@ -40,6 +45,29 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
         holder.ambienceRating.setRating(dataList.get(position).getAmbience());
         holder.reviewTitle.setText(dataList.get(position).getTitle());
         holder.reviewDescription.setText(dataList.get(position).getDescription());
+        final String name = dataList.get(position).getAuthor();
+
+        holder.reviewCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putBoolean("claimed", true);
+                args.putBoolean("registered", true);
+                args.putBoolean("follow_reviewer", true);
+                args.putString("business_id", businessID);
+                args.putString("name",name);
+                args.putString("reviewer_id", null);
+
+                AppCompatActivity activity = (AppCompatActivity)view.getContext();
+
+                FragmentConfirmAction fragment = new FragmentConfirmAction();
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .commit();
+            }
+        });
 
     }
 
@@ -55,6 +83,7 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
         RatingBar ambienceRating;
         TextView reviewTitle;
         TextView reviewDescription;
+        CardView reviewCard;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +93,7 @@ public class ViewBusinessAdaptor extends RecyclerView.Adapter<ViewBusinessAdapto
             ambienceRating = itemView.findViewById(R.id.ratingBarAmbienceReview);
             reviewTitle = itemView.findViewById(R.id.tv_review_title);
             reviewDescription = itemView.findViewById(R.id.tv_review_description);
+            reviewCard = itemView.findViewById(R.id.reviewCard);
         }
     }
 }

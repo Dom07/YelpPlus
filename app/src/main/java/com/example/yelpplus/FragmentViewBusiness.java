@@ -73,6 +73,7 @@ public class FragmentViewBusiness extends Fragment {
     private ListView informationList;
     private Boolean isOwner = false;
     private String warningText;
+    private String userID;
 
     private ImageView owned_tick_mark;
     private Button btn_claim_business;
@@ -145,6 +146,7 @@ public class FragmentViewBusiness extends Fragment {
         uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
+        userID = pref.getString("userId", "");
 
         final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<Business> call = service.getBusinessInformation(business_id);
@@ -184,7 +186,7 @@ public class FragmentViewBusiness extends Fragment {
                         displayAction = "Available for event booking";
                     }
                     else {
-                        if (pref.getString("userId", "").equals(business.getOwner_id())) {
+                        if (!userID.isEmpty() && userID.equals(business.getOwner_id())) {
                             isOwner = true;
                             displayAction = "Register for event booking";
                         }
@@ -206,34 +208,46 @@ public class FragmentViewBusiness extends Fragment {
                 informationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        //Third listView with action items
-                        if (position == 2)
-                        {
-                            //Arguments for confirm Action page
-                            Bundle argsConfirmPage = new Bundle();
-                            argsConfirmPage.putBoolean("claimed", business.getClaimed());
-                            argsConfirmPage.putBoolean("registered", business.getRegistered());
-                            argsConfirmPage.putString("business_id", business_id);
-                            argsConfirmPage.putString("business_name", business.getName());
+                    //Third listView with action items
+                    if (position == 2)
+                    {
+                        //Arguments for confirm Action page
+                        Bundle argsConfirmPage = new Bundle();
+                        argsConfirmPage.putBoolean("claimed", business.getClaimed());
+                        argsConfirmPage.putBoolean("registered", business.getRegistered());
+                        argsConfirmPage.putBoolean("follow_reviewer", false);
+                        argsConfirmPage.putString("business_id", business_id);
+                        argsConfirmPage.putString("name", business.getName());
+                        argsConfirmPage.putString("reviewer_id", null);
 
-                            //Navigate to pages based on the text displayed in listView. Same if statement logic as before.
-                            if (business.getClaimed()) {
-                                if (business.getRegistered()) {
-                                    //Go to event booking
-                                }
-                                else {
-                                    if (pref.getString("userId", "").equals(business.getOwner_id()) ) {
-                                        goToConfirmActionPage(argsConfirmPage);
-                                    }
-                                    else {
-                                        //do nothing
-                                    }
-                                }
+                        //Navigate to pages based on the text displayed in listView. Same if statement logic as before.
+                        if (business.getClaimed()) {
+                            if (business.getRegistered()) {
+                                Bundle args = new Bundle();
+                                args.putString("business_id", business_id);
+                                args.putString("name", business.getName());
+                                FragmentBookEvent fragment = new FragmentBookEvent();
+                                fragment.setArguments(args);
+                                getActivity()
+                                        .getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.frame_layout_home, fragment)
+                                        .addToBackStack(null)
+                                        .commit();
                             }
                             else {
-                                goToConfirmActionPage(argsConfirmPage);
+                                if (pref.getString("userId", "").equals(business.getOwner_id()) ) {
+                                    goToConfirmActionPage(argsConfirmPage);
+                                }
+                                else {
+                                    //do nothing
+                                }
                             }
                         }
+                        else {
+                            goToConfirmActionPage(argsConfirmPage);
+                        }
+                    }
                     }
                 });
             }
@@ -327,7 +341,7 @@ public class FragmentViewBusiness extends Fragment {
     private void generateDataList (List<Reviews_profile> reviews, View view)
     {
         recyclerView = view.findViewById(R.id.reviewListRcv);
-        adaptor = new ViewBusinessAdaptor(reviews, getContext());
+        adaptor = new ViewBusinessAdaptor(reviews, getContext(), business_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adaptor);
     }
