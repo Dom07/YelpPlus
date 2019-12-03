@@ -1,6 +1,7 @@
 package com.example.yelpplus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -208,46 +209,53 @@ public class FragmentViewBusiness extends Fragment {
                 informationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    //Third listView with action items
-                    if (position == 2)
-                    {
-                        //Arguments for confirm Action page
-                        Bundle argsConfirmPage = new Bundle();
-                        argsConfirmPage.putBoolean("claimed", business.getClaimed());
-                        argsConfirmPage.putBoolean("registered", business.getRegistered());
-                        argsConfirmPage.putBoolean("follow_reviewer", false);
-                        argsConfirmPage.putString("business_id", business_id);
-                        argsConfirmPage.putString("name", business.getName());
-                        argsConfirmPage.putString("reviewer_id", null);
 
-                        //Navigate to pages based on the text displayed in listView. Same if statement logic as before.
-                        if (business.getClaimed()) {
-                            if (business.getRegistered()) {
-                                Bundle args = new Bundle();
-                                args.putString("business_id", business_id);
-                                args.putString("name", business.getName());
-                                FragmentBookEvent fragment = new FragmentBookEvent();
-                                fragment.setArguments(args);
-                                getActivity()
-                                        .getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.frame_layout_home, fragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
-                            else {
-                                if (pref.getString("userId", "").equals(business.getOwner_id()) ) {
-                                    goToConfirmActionPage(argsConfirmPage);
+                        if (position == 1)
+                        {
+                            String uri = "http://maps.google.com/maps?&daddr=40.730762,-74.060281";
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                            startActivity(intent);
+                        }
+                        //Third listView with action items
+                        if (position == 2)
+                        {
+                            //Arguments for confirm Action page
+                            Bundle argsConfirmPage = new Bundle();
+                            argsConfirmPage.putBoolean("claimed", business.getClaimed());
+                            argsConfirmPage.putBoolean("registered", business.getRegistered());
+                            argsConfirmPage.putBoolean("follow_reviewer", false);
+                            argsConfirmPage.putString("business_id", business_id);
+                            argsConfirmPage.putString("name", business.getName());
+                            argsConfirmPage.putString("reviewer_id", null);
+
+                            //Navigate to pages based on the text displayed in listView. Same if statement logic as before.
+                            if (business.getClaimed()) {
+                                if (business.getRegistered()) {
+                                    Bundle args = new Bundle();
+                                    args.putString("business_id", business_id);
+                                    args.putString("name", business.getName());
+                                    FragmentBookEvent fragment = new FragmentBookEvent();
+                                    fragment.setArguments(args);
+                                    getActivity()
+                                            .getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.frame_layout_home, fragment)
+                                            .addToBackStack(null)
+                                            .commit();
                                 }
                                 else {
-                                    //do nothing
+                                    if (pref.getString("userId", "").equals(business.getOwner_id()) ) {
+                                        goToConfirmActionPage(argsConfirmPage);
+                                    }
+                                    else {
+                                        //do nothing
+                                    }
                                 }
                             }
+                            else {
+                                goToConfirmActionPage(argsConfirmPage);
+                            }
                         }
-                        else {
-                            goToConfirmActionPage(argsConfirmPage);
-                        }
-                    }
                     }
                 });
             }
