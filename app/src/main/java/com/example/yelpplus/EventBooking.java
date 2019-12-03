@@ -16,6 +16,8 @@ public class EventBooking {
     @SerializedName("menu")
     private String[] menu;
 
+    @SerializedName("business_id")
+    private Business business;
 
     //Getter and setters
     public String getDate() {
@@ -48,5 +50,9 @@ public class EventBooking {
 
     public void setMenu(String[] menu) {
         this.menu = menu;
+    }
+
+    public Business getBusiness() {
+        return business;
     }
 }

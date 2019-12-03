@@ -41,6 +41,16 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
 
         holder.name.setText(dataList.get(position).getName());
         holder.address.setText(dataList.get(position).getAddress());
+        if(dataList.get(position).getRegistered()){
+            holder.event_booking_label.setVisibility(View.VISIBLE);
+        }
+
+        String priceRating = "";
+        for(int i = 0; i < Integer.valueOf(dataList.get(position).getAvg_price_rating()); i++){
+            priceRating = priceRating + "$";
+        }
+        holder.price_rating.setText(priceRating);
+
         String[] images = dataList.get(position).getPhoto();
 
         // TODO: make this code better, its hardcoded
@@ -93,8 +103,10 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView name;
-        TextView phone_number;
+        TextView event_booking_label;
         TextView address;
+        TextView price_rating;
+
         ImageView image_view_one;
         ImageView image_view_two;
         ImageView image_view_three;
@@ -105,6 +117,8 @@ public class ViewListOfBusinessAdaptor extends RecyclerView.Adapter<ViewListOfBu
             super(itemView);
             name = itemView.findViewById(R.id.business_title);
             address = itemView.findViewById(R.id.business_address);
+            price_rating = itemView.findViewById(R.id.tv_price_rating);
+            event_booking_label = itemView.findViewById(R.id.tv_event_booking_label);
             image_view_one = itemView.findViewById(R.id.business_image_one);
             image_view_two = itemView.findViewById(R.id.business_image_two);
             image_view_three = itemView.findViewById(R.id.business_image_three);

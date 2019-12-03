@@ -13,8 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.CompoundButton;
 import android.widget.SearchView;
+import android.widget.ToggleButton;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,6 +47,11 @@ public class Fragment_Search_View extends Fragment {
 
     private String search_word;
     private String category_id;
+
+    private List<Business> businesses;
+
+    private ToggleButton tb_event_booking;
+    private ToggleButton tb_sort_price;
 
     private SearchView searchView;
     private ViewListOfBusinessAdaptor adaptor;
@@ -85,12 +96,53 @@ public class Fragment_Search_View extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_search_view, container, false);
+
+        tb_event_booking = rootView.findViewById(R.id.tb_event_booking);
+        tb_sort_price = rootView.findViewById(R.id.tb_sort_price);
+
         if(category_id!=null){
             getDataByCategory(rootView, category_id);
         }
         if(search_word!=null){
             getDataBySearch(rootView, search_word);
         }
+
+        tb_event_booking.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    tb_sort_price.setChecked(false);
+                    List<Business> eventBusiness = new ArrayList<>();
+                    for(int i = 0; i < businesses.size(); i++){
+                        if(businesses.get(i).getRegistered()){
+                            eventBusiness.add(businesses.get(i));
+                        }
+                    }
+                    generateDataList(eventBusiness, rootView);
+                }else{
+                    generateDataList(businesses, rootView);
+                }
+            }
+        });
+
+        tb_sort_price.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    tb_event_booking.setChecked(false);
+                    List<Business> tempBusiness = businesses;
+                    Collections.sort(tempBusiness, new Comparator<Business>() {
+                        @Override
+                        public int compare(Business b1, Business b2) {
+                            return Integer.valueOf(b1.getAvg_price_rating()).compareTo(Integer.valueOf(b2.getAvg_price_rating()));
+                        }
+                    });
+                    generateDataList(tempBusiness, rootView);
+                }else{
+                    generateDataList(businesses, rootView);
+                }
+            }
+        });
 
         searchView = rootView.findViewById(R.id.fragment_search_view);
         searchView.setQuery(search_word, false);
@@ -155,7 +207,8 @@ public class Fragment_Search_View extends Fragment {
         call.enqueue(new Callback<List<Business>>() {
             @Override
             public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
-                generateDataList(response.body(), rootView);
+                businesses = response.body();
+                generateDataList(businesses, rootView);
             }
 
             @Override
@@ -171,7 +224,8 @@ public class Fragment_Search_View extends Fragment {
         call.enqueue(new Callback<List<Business>>() {
             @Override
             public void onResponse(Call<List<Business>> call, Response<List<Business>> response) {
-                generateDataList(response.body(), rootView);
+                businesses = response.body();
+                generateDataList(businesses, rootView);
             }
 
             @Override

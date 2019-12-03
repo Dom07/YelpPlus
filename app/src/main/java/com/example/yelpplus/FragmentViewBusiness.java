@@ -28,6 +28,7 @@ import android.widget.ViewFlipper;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.net.Inet4Address;
 import java.util.List;
 
 import retrofit2.Call;
@@ -82,6 +83,7 @@ public class FragmentViewBusiness extends Fragment {
     private TextView reviewNumbers;
     private Button writeReviewButton;
     private Button uploadImageButton;
+    private Button reviewPageButton;
     private RecyclerView recyclerView;
 
     private ViewBusinessAdaptor adaptor;
@@ -144,6 +146,7 @@ public class FragmentViewBusiness extends Fragment {
 
         writeReviewButton = rootView.findViewById(R.id.writeReview);
         uploadImageButton = rootView.findViewById(R.id.btn_open_upload_fragment);
+        reviewPageButton = rootView.findViewById(R.id.btn_review_page);
 
         final SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         userID = pref.getString("userId", "");
@@ -158,6 +161,10 @@ public class FragmentViewBusiness extends Fragment {
                 phoneNumber.setText(business.getPhone_number());
                 address.setText(business.getAddress());
                 images = business.getPhoto();
+                serviceRating.setRating(Integer.valueOf(business.getAvg_service_rating()));
+                ambienceRating.setRating(Integer.valueOf(business.getAvg_ambience_rating()));
+                productRating.setRating(Integer.valueOf(business.getAvg_product_rating()));;
+                averageRating.setRating(Integer.valueOf(business.getAvg_rating()));
 
                 Picasso.Builder builder = new Picasso.Builder(getContext());
                 builder.downloader(new OkHttp3Downloader(getContext()));
@@ -287,6 +294,22 @@ public class FragmentViewBusiness extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("business_id", business_id);
                 FragmentUploadPhoto fragment = new FragmentUploadPhoto();
+                fragment.setArguments(args);
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_home, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        reviewPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("business_id", business_id);
+                FragmentReviewPage fragment = new FragmentReviewPage();
                 fragment.setArguments(args);
                 getActivity()
                         .getSupportFragmentManager()

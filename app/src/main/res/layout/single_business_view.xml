@@ -33,9 +33,17 @@
                 android:text="Business Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_price_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Price Rating Goes Here"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutImages"
             android:layout_below="@id/linearLayoutDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,5 +80,14 @@
                 android:scaleType="fitXY"/>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_margin="5dp"
+            android:id="@+id/tv_event_booking_label"
+            android:layout_below="@+id/linearLayoutImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Booking Available"
+            android:visibility="invisible"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

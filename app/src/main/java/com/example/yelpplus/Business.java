@@ -47,6 +47,22 @@ public class Business {
     @SerializedName("event")
     private List<EventBooking> events;
 
+    @SerializedName("avg_price_rating")
+    private String avg_price_rating;
+
+    @SerializedName("avg_ambience_rating")
+    private String avg_ambience_rating;
+
+    @SerializedName("avg_product_rating")
+    private String avg_product_rating;
+
+    @SerializedName("avg_service_rating")
+    private String avg_service_rating;
+
+    @SerializedName("avg_rating")
+    private String avg_rating;
+
+
     public String getName() {
         return name;
     }
@@ -113,5 +129,25 @@ public class Business {
 
     public void setEvents(List<EventBooking> events) {
         this.events = events;
+    }
+
+    public String getAvg_price_rating() {
+        return avg_price_rating;
+    }
+
+    public String getAvg_ambience_rating() {
+        return avg_ambience_rating;
+    }
+
+    public String getAvg_product_rating() {
+        return avg_product_rating;
+    }
+
+    public String getAvg_service_rating() {
+        return avg_service_rating;
+    }
+
+    public String getAvg_rating() {
+        return avg_rating;
     }
 }
