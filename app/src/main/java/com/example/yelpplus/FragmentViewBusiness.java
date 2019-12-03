@@ -209,7 +209,14 @@ public class FragmentViewBusiness extends Fragment {
                         //Address. Go to Google Maps
                         if (position == 1)
                         {
-                            String uri = "http://maps.google.com/maps?&daddr=40.730762,-74.060281";
+                            String lat = business.getLatitude();
+                            String lon = business.getLongitude();
+                            if (lat.isEmpty() || lon.isEmpty())
+                            {
+                                lat = "40.737636";
+                                lon = "-74.172404";
+                            }
+                            String uri = "http://maps.google.com/maps?&daddr=" + lat + "," + lon;
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                             startActivity(intent);
                         }
