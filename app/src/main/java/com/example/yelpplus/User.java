@@ -27,6 +27,10 @@ public class User {
     @SerializedName("reviews")
     private List<Reviews_profile> reviews;
 
+    @SerializedName("secondary_id")
+    private String reviewerID;
+
+
     public String getUser_id() {
         return user_id;
     }
@@ -81,5 +85,13 @@ public class User {
 
     public void setAuthenticationStatus(Boolean authenticationStatus) {
         this.authenticationStatus = authenticationStatus;
+    }
+
+    public String getReviewerID() {
+        return reviewerID;
+    }
+
+    public void setReviewerID(String reviewerID) {
+        this.reviewerID = reviewerID;
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class FragmentConfirmAction extends Fragment {
             followReviewer = getArguments().getBoolean("follow_reviewer");
             business_id = getArguments().getString("business_id");
             name = getArguments().getString("name");
+            reviewerID = getArguments().getString("reviewer_id");
         }
     }
 
@@ -172,7 +174,26 @@ public class FragmentConfirmAction extends Fragment {
             confirmYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    GetDataService dataService = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+                    Call<User> call = dataService.followUser(user_id, reviewerID);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if(response.isSuccessful()) {
+                                changeFragment(business_id);
+                            }
+                            else {
+                                Toast toast = Toast.makeText(getContext(), "There was an error in following the reviewer.", Toast.LENGTH_LONG);
+                                toast.show();
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast toast = Toast.makeText(getContext(), "Failure", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
                 }
             });
         }
