@@ -158,8 +158,7 @@ public class FragmentViewBusiness extends Fragment {
                                 .commit();
                     }
                 });
-
-
+                
                 Picasso.Builder builder = new Picasso.Builder(getContext());
                 builder.downloader(new OkHttp3Downloader(getContext()));
                 builder.build().load(images[0])
