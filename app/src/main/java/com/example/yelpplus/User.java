@@ -1,5 +1,7 @@
 package com.example.yelpplus;
 
+import android.widget.ListView;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -29,6 +31,9 @@ public class User {
 
     @SerializedName("secondary_id")
     private String reviewerID;
+
+    @SerializedName("following")
+    private List<User> following;
 
 
     public String getUser_id() {
@@ -93,5 +98,13 @@ public class User {
 
     public void setReviewerID(String reviewerID) {
         this.reviewerID = reviewerID;
+    }
+
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 }

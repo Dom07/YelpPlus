@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -59,27 +59,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Email Id" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Total Reviews"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="5" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_label_your_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:text="Booked Events:"
             android:textColor="@color/colorPrimary"
@@ -88,7 +74,28 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_booked_event_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/profileFollowingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="You are following reviewers below:"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/profileFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
     </LinearLayout>
+
 </ScrollView>
