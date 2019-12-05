@@ -48,6 +48,8 @@ public class FragmentProfile extends Fragment {
     private TextView tv_login_message;
     private LinearLayout linear_layout_profile;
     private TextView tv_label_your_review;
+    private TextView followingLabel;
+    private TextView following;
 
     private ListOfEventsAdaptor adaptor;
     private RecyclerView recyclerView;
@@ -94,6 +96,9 @@ public class FragmentProfile extends Fragment {
         tv_email_id = rootView.findViewById(R.id.tv_user_email_id);
         linear_layout_profile = rootView.findViewById(R.id.linear_layout_profile);
         tv_label_your_review = rootView.findViewById(R.id.tv_label_your_review);
+        followingLabel = rootView.findViewById(R.id.profileFollowingLabel);
+        following = rootView.findViewById(R.id.profileFollowing);
+
 
         SharedPreferences pref = getContext().getSharedPreferences("Authentication",0);
         if(pref.getBoolean("isLoggedIn", false)){
@@ -105,10 +110,13 @@ public class FragmentProfile extends Fragment {
             tv_user_name.setText(username);
             tv_email_id.setText(email_id);
             getEvents(rootView, pref.getString("userId",""));
+            getFollowing(pref.getString("userId",""));
         }else{
             tv_login_message.setVisibility(View.VISIBLE);
             linear_layout_profile.setVisibility(View.INVISIBLE);
             tv_label_your_review.setVisibility(View.INVISIBLE);
+            followingLabel.setVisibility(View.INVISIBLE);
+            following.setVisibility(View.INVISIBLE);
         }
         return rootView;
     }
@@ -125,7 +133,35 @@ public class FragmentProfile extends Fragment {
 
             @Override
             public void onFailure(Call<List<EventBooking>> call, Throwable t) {
-                Log.e("ERROR",""+t);
+
+            }
+        });
+    }
+
+    private void getFollowing(String user_id) {
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<User> call = service.getFollowers(user_id);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User userData = response.body();
+                List<User> followingList = userData.getFollowing();
+                int i = 0;
+                for (User follower:followingList) {
+                    if (i == 0) {
+                        following.setText(follower.getFirst_name() + " " + follower.getLast_name());
+                        i++;
+                    }
+                    else {
+                        following.append(System.getProperty("line.separator"));
+                        following.append(follower.getFirst_name() + " " + follower.getLast_name());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
             }
         });
     }
