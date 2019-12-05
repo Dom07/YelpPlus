@@ -37,7 +37,8 @@
             android:id="@+id/ETRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Password"/>
+            android:hint="Enter Password"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/btnRegister"
