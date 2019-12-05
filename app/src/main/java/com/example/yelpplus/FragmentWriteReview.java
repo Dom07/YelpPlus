@@ -154,7 +154,10 @@ public class FragmentWriteReview extends Fragment {
                         {
                             Toast toast = Toast.makeText(getContext(), "Review has been successfully created.", Toast.LENGTH_LONG);
                             toast.show();
-                            Fragment_Home_Page fragment = new Fragment_Home_Page();
+                            Bundle args = new Bundle();
+                            args.putString("business_id", business_id);
+                            FragmentViewBusiness fragment = new FragmentViewBusiness();
+                            fragment.setArguments(args);
                             getActivity()
                                     .getSupportFragmentManager()
                                     .beginTransaction()
